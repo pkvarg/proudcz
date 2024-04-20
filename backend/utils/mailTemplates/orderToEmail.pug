@@ -1,0 +1,24 @@
+extends baseEmail 
+
+block content 
+                            
+  h3 Dobrý den #{user},
+  
+  h1 Vaše objednávka 
+
+  h2 #{products}
+  h2 #{firstName}
+  h2 #{address}
+  h2 Způsob platby: #{paymentMethod}
+  h2 Status: #{paid}
+  h2 Poštovné: #{shippingPrice.replace('.', ',') } €
+  //- h2 Tax: #{taxPrice}
+  h2 Celkem: #{totalPrice.replace('.', ',') } €
+  h2 Číslo objednávky: #{orderNumber}
+  h2 Poznámka: #{note}
+ 
+
+  h3 Děkujeme za Váš nákup!
+
+  
+  

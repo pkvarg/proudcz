@@ -1,0 +1,11 @@
+extends baseEmail 
+
+block content
+
+  p Dobrý den #{firstName},
+  p Dokončete prosím svoji registraci kliknutím na link níže.
+  p Děkujeme,že jste se zaregistrovali na našem e-shopu!
+  p Váš e-mail: #{email}
+
+   a(href=`${url}`, target='_blank') Dokončení registrace
+  

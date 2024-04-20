@@ -1,0 +1,10 @@
+extends baseEmail 
+
+block content
+
+  p Dobrý den #{firstName},
+  p Děkujeme za Vaši registraci v našem Eshopu!
+  p Váš email: #{email}
+
+  a(href=`${url}`, target='_blank') Do eshopu
+  
