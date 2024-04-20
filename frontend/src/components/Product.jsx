@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
-import { addDecimals } from '../functions'
 
 const Product = ({ product }) => {
   return (
@@ -26,10 +25,10 @@ const Product = ({ product }) => {
               <span className='discounted-price-span'>
                 Zľava {product.discount}%
               </span>
-              {addDecimals(product.discountedPrice)}€
+              {product.discountedPrice} Kč
             </h5>
           ) : (
-            <h4>{addDecimals(product.price).replace('.', ',')}€</h4>
+            <h4 style={{ textTransform: 'capitalize' }}>{product.price} Kč</h4>
           )}
         </div>
       </Card.Body>

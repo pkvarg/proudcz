@@ -23,7 +23,6 @@ import {
 } from '../actions/productActions'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 import * as Icon from 'react-bootstrap-icons'
-import { addDecimals } from '../functions'
 
 const ProductScreen = () => {
   const [qty, setQty] = useState(1)
@@ -47,7 +46,7 @@ const ProductScreen = () => {
 
   useLayoutEffect(() => {
     if (successProductReview) {
-      setMessage('Recenzia odoslaná adminovi')
+      setMessage('Recenze odeslaná adminovi')
       setRating(0)
       setComment('')
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
@@ -213,7 +212,7 @@ const ProductScreen = () => {
                         </ListGroup.Item>
 
                         <ListGroup.Item className='product-price'>
-                          Cena: {addDecimals(product.price).replace('.', ',')} €
+                          Cena: {product.price} Kč
                         </ListGroup.Item>
                         <ListGroup.Item className='product-description'>
                           Popis: {product.description}
@@ -239,18 +238,11 @@ const ProductScreen = () => {
                                       <span className='discounted-price-span'>
                                         Sleva {product.discount}%
                                       </span>
-                                      {addDecimals(
-                                        product.discountedPrice
-                                      ).replace('.', ',')}{' '}
-                                      €
+                                      {product.discountedPrice} Kč
                                     </h5>
                                   ) : (
                                     <p className='price-box'>
-                                      {addDecimals(product.price).replace(
-                                        '.',
-                                        ','
-                                      )}{' '}
-                                      €
+                                      {product.price} Kč
                                     </p>
                                   )}
                                 </div>

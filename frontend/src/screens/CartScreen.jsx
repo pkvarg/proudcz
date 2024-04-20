@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
-import { addDecimals } from '../functions'
 import * as Icon from 'react-bootstrap-icons'
 
 const CartScreen = () => {
@@ -66,10 +65,7 @@ const CartScreen = () => {
                     </Link>
                   </Col>
 
-                  <Col md={2}>
-                    {' '}
-                    {addDecimals(item.price).replace('.', ',')} €
-                  </Col>
+                  <Col md={2}> {item.price} Kč</Col>
                   <Col md={2}>
                     <Form.Control
                       as='select'
@@ -110,10 +106,7 @@ const CartScreen = () => {
                     </Link>
                   </Col>
                   <div className='cart-mob-three-row'>
-                    <Col md={2}>
-                      {' '}
-                      {addDecimals(item.price).replace('.', ',')} €
-                    </Col>
+                    <Col md={2}> {item.price} Kč</Col>
                     <Col md={2}>
                       <Form.Control
                         as='select'
@@ -158,14 +151,11 @@ const CartScreen = () => {
               <div className='cart-box-right'>
                 Produkty:{' '}
                 <div className='ml-auto'>
-                  {cartItems
-                    .reduce(
-                      (acc, item) => acc + Number(item.qty * item.price),
-                      0
-                    )
-                    .toFixed(2)
-                    .replace('.', ',')}{' '}
-                  €
+                  {cartItems.reduce(
+                    (acc, item) => acc + Number(item.qty * item.price),
+                    0
+                  )}{' '}
+                  Kč
                 </div>
               </div>
             </ListGroup.Item>
@@ -176,16 +166,13 @@ const CartScreen = () => {
                   <div className='cart-box-right'>
                     Poštovné:{' '}
                     <div className='ml-auto'>
-                      {cartItems
-                        .reduce(
-                          (acc, item) => acc + Number(item.qty * item.price),
-                          0
-                        )
-                        .toFixed(2)
-                        .replace('.', ',') > 100
+                      {cartItems.reduce(
+                        (acc, item) => acc + Number(item.qty * item.price),
+                        0
+                      ) > 260
                         ? 0
-                        : addDecimals(3.5).replace('.', ',')}{' '}
-                      €
+                        : 60}{' '}
+                      Kč
                     </div>
                   </div>
                 </Col>
@@ -197,24 +184,21 @@ const CartScreen = () => {
                   <div className='cart-box-right'>
                     Celkem:{' '}
                     <div className='ml-auto'>
-                      {addDecimals(
+                      {Number(
+                        cartItems.reduce(
+                          (acc, item) => acc + Number(item.qty * item.price),
+                          0
+                        )
+                      ) +
                         Number(
                           cartItems.reduce(
                             (acc, item) => acc + Number(item.qty * item.price),
                             0
-                          )
-                        ) +
-                          Number(
-                            cartItems.reduce(
-                              (acc, item) =>
-                                acc + Number(item.qty * item.price),
-                              0
-                            ) > 100
-                              ? 0
-                              : 3.5
-                          )
-                      ).replace('.', ',')}{' '}
-                      €
+                          ) > 260
+                            ? 0
+                            : 60
+                        )}{' '}
+                      Kč
                     </div>
                   </div>
                 </Col>

@@ -23,10 +23,10 @@ const ForgotPasswordScreen = () => {
   const submitHandler = (e) => {
     e.preventDefault()
     if (!email) {
-      setMessage('Musíte zadať existujúci email')
+      setMessage('Musíte zadat stávající email')
     } else {
       dispatch(forgotPasswordAction(email, origURL))
-      setMessageSuccess('Linka bola odoslaná na Váš email')
+      setMessageSuccess('Linka byla odeslána na Váš email')
     }
   }
 

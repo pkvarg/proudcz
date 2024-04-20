@@ -49,8 +49,8 @@ const createDiscountAllProducts = asyncHandler(async (req, res) => {
       const singleProduct = await Product.findById(products[i]._id)
       singleProduct.discount = discount
       const price = singleProduct.price
-      const newPrice = (price - (price * discount) / 100).toFixed(2)
-      const roundedPriceToFiveCents = (Math.ceil(newPrice * 20) / 20).toFixed(2)
+      const newPrice = price - (price * discount) / 100
+      const roundedPriceToFiveCents = Math.ceil(newPrice * 20) / 20
       singleProduct.discountedPrice = roundedPriceToFiveCents
       await singleProduct.save()
     })

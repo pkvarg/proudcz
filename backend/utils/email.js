@@ -22,15 +22,15 @@ class Email {
     this.paidByWhom = user.paidByWhom
     //this.paymentMethod = user.paymentMethod
     let paymentMethod
-    if (user.paymentMethod === 'Hotovosť') {
-      paymentMethod = 'Zaplatíte pri prevzatí'
+    if (user.paymentMethod === 'Hotovost') {
+      paymentMethod = 'Zaplatíte při převzetí'
     } else if (user.paymentMethod === 'PayPal alebo karta') {
       paymentMethod = 'PayPal alebo platba kartou'
     } else {
       paymentMethod = 'Stripe'
     }
     this.paymentMethod = paymentMethod
-    this.isPaid = user.isPaid ? 'Zaplatené' : 'Nezaplatené'
+    this.isPaid = user.isPaid ? 'Zaplaceno' : 'Nezaplaceno'
     this.shippingPrice = user.shippingPrice
     this.taxPrice = user.taxPrice
     this.totalPrice = user.totalPrice
@@ -166,7 +166,7 @@ class Email {
   async sendDeliveredNotificationEmail() {
     await this.send(
       'deliveredOrderEmail',
-      `Vaše objednávka ${this.orderNumber} byla odoslána`,
+      `Vaše objednávka ${this.orderNumber} byla odeslána`,
       false
     )
   }

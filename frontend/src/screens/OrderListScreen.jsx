@@ -52,9 +52,9 @@ const OrderListScreen = () => {
                 <td style={{ color: 'red' }}>
                   {order.isCancelled && 'Zrušená'}
                 </td>
-                <td>{order.user && order.user.name}</td>
+                <td>{order.user && order.email}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
-                <td>€{order.totalPrice.toFixed(2)}</td>
+                <td>{order.totalPrice} Kč</td>
 
                 <td>
                   <span>
@@ -65,7 +65,7 @@ const OrderListScreen = () => {
                     )}
                   </span>
                   <span style={{ marginLeft: '90%' }}>
-                    {order.paymentMethod === 'Hotovosť' ? (
+                    {order.paymentMethod === 'Hotovost' ? (
                       <Icon.CashCoin />
                     ) : (
                       <Icon.CreditCard />

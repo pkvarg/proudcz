@@ -17,7 +17,7 @@ import {
   ORDER_LIST_MY_RESET,
 } from '../constants/orderConstants'
 import axios from 'axios'
-import { addDecimals } from '../functions'
+
 import { removeFromAll } from '../actions/cartActions'
 
 const OrderStripeSuccess = () => {
@@ -70,8 +70,9 @@ const OrderStripeSuccess = () => {
 
   if (!loading) {
     // Calculate Prices
-    order.itemsPrice = addDecimals(
-      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    order.itemsPrice = order.orderItems.reduce(
+      (acc, item) => acc + item.price * item.qty,
+      0
     )
   }
 
@@ -153,7 +154,7 @@ const OrderStripeSuccess = () => {
 
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Odosláno {order.deliveredAt}
+                  Odesláno {order.deliveredAt}
                 </Message>
               ) : (
                 <Message variant='danger'>Neodesláno</Message>
@@ -206,9 +207,7 @@ const OrderStripeSuccess = () => {
                         </Col>
                         <Col className='place-order-calc' md={4}>
                           {item.qty} x {''}
-                          {item.price.toFixed(2).replace('.', ',')} € ={' '}
-                          {(item.qty * item.price).toFixed(2).replace('.', ',')}{' '}
-                          €
+                          {item.price} Kč = {item.qty * item.price} Kč
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -228,9 +227,7 @@ const OrderStripeSuccess = () => {
                 <Row className=''>
                   <div className='cart-box-right'>
                     Produkty:
-                    <div className='ml-auto'>
-                      {order.itemsPrice.replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'>{order.itemsPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>
@@ -238,10 +235,7 @@ const OrderStripeSuccess = () => {
                 <Row>
                   <div className='cart-box-right'>
                     Poštovné:
-                    <div className='ml-auto'>
-                      {' '}
-                      {addDecimals(order.shippingPrice).replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'> {order.shippingPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>
@@ -250,10 +244,7 @@ const OrderStripeSuccess = () => {
                 <Row>
                   <div className='cart-box-right'>
                     Celkem:
-                    <div className='ml-auto'>
-                      {' '}
-                      {addDecimals(order.totalPrice).replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'> {order.totalPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>

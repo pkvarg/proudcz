@@ -51,7 +51,7 @@ const PaymentScreen = () => {
                 label='Hotovost při převzetí'
                 id='Cash'
                 name='paymentMethod'
-                value='Hotovosť'
+                value='Hotovost'
                 onChange={(e) => setPaymentMethod(e.target.value)}
               ></Form.Check>
             </Col>

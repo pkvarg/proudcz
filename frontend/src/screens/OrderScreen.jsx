@@ -30,7 +30,6 @@ import {
   ORDER_LIST_MY_RESET,
 } from '../constants/orderConstants'
 import { loadStripe } from '@stripe/stripe-js'
-import { addDecimals } from '../functions'
 
 const OrderScreen = () => {
   const stripeApiKey = import.meta.env.VITE_STRIPE_API_KEY
@@ -77,8 +76,9 @@ const OrderScreen = () => {
 
   if (!loading) {
     // Calculate Prices
-    order.itemsPrice = addDecimals(
-      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    order.itemsPrice = order.orderItems.reduce(
+      (acc, item) => acc + item.price * item.qty,
+      0
     )
   }
 
@@ -360,9 +360,7 @@ const OrderScreen = () => {
                         </Col>
                         <Col md={4} className='place-order-calc'>
                           {item.qty} x {''}
-                          {item.price.toFixed(2).replace('.', ',')} € ={' '}
-                          {(item.qty * item.price).toFixed(2).replace('.', ',')}{' '}
-                          €
+                          {item.price} Kč = {item.qty * item.price} Kč
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -382,9 +380,7 @@ const OrderScreen = () => {
                 <Row className=''>
                   <div className='cart-box-right'>
                     Produkty:
-                    <div className='ml-auto'>
-                      {order.itemsPrice.replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'>{order.itemsPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>
@@ -392,10 +388,7 @@ const OrderScreen = () => {
                 <Row>
                   <div className='cart-box-right'>
                     Poštovné:
-                    <div className='ml-auto'>
-                      {' '}
-                      {addDecimals(order.shippingPrice).replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'> {order.shippingPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>
@@ -404,10 +397,7 @@ const OrderScreen = () => {
                 <Row>
                   <div className='cart-box-right'>
                     Celkom:
-                    <div className='ml-auto'>
-                      {' '}
-                      {addDecimals(order.totalPrice).replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'> {order.totalPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>

@@ -24,9 +24,6 @@ const Eshop = () => {
     <>
       <div className=''>
         <h1 className='new-publications'>Eshop</h1>
-        {/* <h4 className='eshop-category'>
-          {category.replace('-', ' ').replace('-', ' ').replace('-', ' ')}
-        </h4> */}
       </div>
       {loading ? (
         <Loader />

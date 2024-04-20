@@ -181,8 +181,8 @@ const ProductEditScreen = () => {
 
   const discountHandler = (discount) => {
     setDiscount(discount)
-    const newPrice = (price - (price * discount) / 100).toFixed(2)
-    const roundedPriceToFiveCents = (Math.ceil(newPrice * 20) / 20).toFixed(2)
+    const newPrice = price - (price * discount) / 100
+    const roundedPriceToFiveCents = Math.ceil(newPrice * 20) / 20
     setDiscountedPrice(roundedPriceToFiveCents)
   }
 
@@ -426,7 +426,9 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId='related'>
-              <Form.Label className='my-3'>Související tituly (max 3)</Form.Label>
+              <Form.Label className='my-3'>
+                Související tituly (max 3)
+              </Form.Label>
               <Dropdown>
                 <Dropdown.Toggle
                   variant='success'

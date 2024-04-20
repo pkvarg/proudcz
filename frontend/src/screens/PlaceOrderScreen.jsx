@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
-import { addDecimals } from '../functions'
+import { removeFromAll } from '../actions/cartActions'
 
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch()
@@ -14,23 +14,25 @@ const PlaceOrderScreen = () => {
 
   // Calculate Prices
 
-  cart.itemsPrice = addDecimals(
-    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+  cart.itemsPrice = cart.cartItems.reduce(
+    (acc, item) => acc + item.price * item.qty,
+    0
   )
 
   // DEFINE SHIPPING PRICE and TAX HERE
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : addDecimals(3.5))
+  cart.shippingPrice = cart.itemsPrice > 260 ? 0 : 60
   // cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
 
-  cart.totalPrice = (
-    Number(cart.itemsPrice) + Number(cart.shippingPrice)
-  ).toFixed(2)
+  cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice)
 
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
 
   useEffect(() => {
     if (success) {
+      if (cart.paymentMethod === 'Hotovost') {
+        dispatch(removeFromAll())
+      }
       navigate(`/order/${order._id}`)
     }
     // eslint-disable-next-line
@@ -62,8 +64,11 @@ const PlaceOrderScreen = () => {
     })
   })
 
+  const [clicked, setClicked] = useState(false)
+
   const placeOrderhandler = () => {
     if (gdrpOrderChecked && tradeRulesOrderChecked) {
+      setClicked(true)
       dispatch(
         createOrder({
           orderItems: cart.cartItems,
@@ -177,9 +182,7 @@ const PlaceOrderScreen = () => {
                         </Col>
                         <Col md={4} className='place-order-calc'>
                           {item.qty} x {''}
-                          {item.price.toFixed(2).replace('.', ',')} € ={''}{' '}
-                          {(item.qty * item.price).toFixed(2).replace('.', ',')}{' '}
-                          €
+                          {item.price} Kč ={''} {item.qty * item.price} Kč
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -199,9 +202,7 @@ const PlaceOrderScreen = () => {
                 <Row className=''>
                   <div className='cart-box-right'>
                     Produkty:
-                    <div className='ml-auto'>
-                      {cart.itemsPrice.replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'>{cart.itemsPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>
@@ -209,10 +210,7 @@ const PlaceOrderScreen = () => {
                 <Row>
                   <div className='cart-box-right'>
                     Poštovné:
-                    <div className='ml-auto'>
-                      {' '}
-                      {cart.shippingPrice.replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'> {cart.shippingPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>
@@ -221,10 +219,7 @@ const PlaceOrderScreen = () => {
                 <Row>
                   <div className='cart-box-right'>
                     Celkem:
-                    <div className='ml-auto'>
-                      {' '}
-                      {cart.totalPrice.replace('.', ',')} €
-                    </div>
+                    <div className='ml-auto'> {cart.totalPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>
@@ -263,7 +258,7 @@ const PlaceOrderScreen = () => {
                 <Button
                   type='button'
                   className='btn-block w-100 btn-blue'
-                  disabled={cart.items === 0}
+                  disabled={cart.items === 0 || clicked}
                   onClick={placeOrderhandler}
                 >
                   Závazně objednat

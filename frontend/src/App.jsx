@@ -75,6 +75,7 @@ const App = () => {
               <Route path='/payment' element={<PaymentScreen />} />
               <Route path='/placeorder' element={<PlaceOrderScreen />} />
               <Route path='/login' element={<LoginScreen />} />
+              <Route path='/login/profile' element={<LoginScreen />} />
               <Route path='/register' element={<RegisterScreen />} />
               <Route
                 path='/reset-password/:token/:name/:email/:id/:genToken'

@@ -43,26 +43,6 @@ const ProductListScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  // useEffect(() => {
-  //   dispatch({ type: PRODUCT_CREATE_RESET })
-  //   if (!userInfo.isAdmin) {
-  //     navigate('/login')
-  //   }
-  //   if (successCreate) {
-  //     navigate(`/admin/product/${createdProduct._id}/edit`)
-  //   } else {
-  //     dispatch(listProducts('', pageNumber))
-  //   }
-  // }, [
-  //   dispatch,
-  //   userInfo,
-  //   navigate,
-  //   successDelete,
-  //   successCreate,
-  //   createdProduct,
-  //   pageNumber,
-  // ])
-
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure?')) {
       dispatch(deleteProduct(id))
@@ -161,6 +141,7 @@ const ProductListScreen = () => {
             <thead>
               <tr>
                 <th>NÁZEV</th>
+                <th>Skladem ks</th>
                 <th>CENA</th>
                 <th>KATEGORIE</th>
                 <th>SLEVA</th>
@@ -173,7 +154,16 @@ const ProductListScreen = () => {
               {products.map((product) => (
                 <tr key={product._id}>
                   <td className='prod-list-name'>{product.name}</td>
-                  <td>€{product.price.toFixed(2)}</td>
+                  <td
+                    style={
+                      product.countInStock <= 10
+                        ? { color: 'red' }
+                        : { color: 'lightGreen' }
+                    }
+                  >
+                    {product.countInStock}
+                  </td>
+                  <td>{product.price} Kč</td>
                   <td className='prod-list-name'>
                     {product.category
                       .replace('-', ' ')
@@ -181,7 +171,7 @@ const ProductListScreen = () => {
                       .replace('-', ' ')}
                   </td>
                   <td>{product.discount}%</td>
-                  <td>€{product.discountedPrice.toFixed(2)}</td>
+                  <td>{product.discountedPrice} Kč</td>
                   <td>{product.excerpt ? 'yes' : 'no'}</td>
                   <td>
                     {!product.pages ||

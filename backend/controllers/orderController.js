@@ -86,21 +86,14 @@ const addOrderItems = asyncHandler(async (req, res) => {
           ' x ' +
           item.name +
           ' ' +
-          item.price.toFixed(2).replace('.', ',') +
-          ' €' +
+          item.price +
+          ' Kč' +
           ' zľava: ' +
           discounts[i].discount +
           ' %'
       } else {
         productsObject[i] =
-          ' ' +
-          item.qty +
-          ' x ' +
-          item.name +
-          ' ' +
-          item.price.toFixed(2).replace('.', ',') +
-          ' €' +
-          '  '
+          ' ' + item.qty + ' x ' + item.name + ' ' + item.price + ' Kč' + '  '
       }
     })
 
@@ -113,8 +106,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
     productsObject.name = name
     productsObject.orderNumber = createdOrder.orderNumber
     productsObject.taxPrice = createdOrder.taxPrice
-    productsObject.totalPrice = createdOrder.totalPrice.toFixed(2)
-    productsObject.shippingPrice = createdOrder.shippingPrice.toFixed(2)
+    productsObject.totalPrice = createdOrder.totalPrice
+    productsObject.shippingPrice = createdOrder.shippingPrice
     productsObject.isPaid = createdOrder.isPaid
     productsObject.productsCount = productsCount
     productsObject.orderId = createdOrder._id
@@ -189,9 +182,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
       items: createdOrder.orderItems,
       discounts: discounts,
       paymentMethod: createdOrder.paymentMethod,
-      total: createdOrder.totalPrice.toFixed(2),
+      total: createdOrder.totalPrice,
       taxPrice: createdOrder.taxPrice,
-      shippingPrice: createdOrder.shippingPrice.toFixed(2),
+      shippingPrice: createdOrder.shippingPrice,
       orderNumber: createdOrder.orderNumber,
       header: {
         company_name: 'Prúd',
@@ -203,7 +196,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       footer: {
         text: 'Faktúra zároveň slúži ako dodací list',
       },
-      currency_symbol: '€',
+      currency_symbol: 'Kč',
       date: {
         billing_date: billingDate,
         due_date: dueDate,
@@ -275,27 +268,16 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
           item.qty +
           ' x ' +
           item.name +
-          ' €' +
-          item.price.toFixed(2) +
+          ' Kč' +
+          item.price +
           ' zľava: ' +
           discounts[i].discount +
           ' %'
       } else {
         updatedOrderProductsObject[i] =
-          ' ' +
-          item.qty +
-          ' x ' +
-          item.name +
-          ' €' +
-          item.price.toFixed(2) +
-          '  '
+          ' ' + item.qty + ' x ' + item.name + ' Kč' + item.price + '  '
       }
     })
-
-    // updatedOrderLoop.map((item, i) => {
-    //   updatedOrderProductsObject[i] =
-    //     item.qty + ' x ' + item.name + ' €' + item.price.toFixed(2)
-    // })
 
     // object with address info
     const updatedOrderAddressInfo = updatedOrder.shippingAddress
@@ -309,9 +291,8 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       updatedOrder.paymentResult.name.surname
     updatedOrderProductsObject.orderNumber = orderNumber
     updatedOrderProductsObject.taxPrice = updatedOrder.taxPrice
-    updatedOrderProductsObject.totalPrice = updatedOrder.totalPrice.toFixed(2)
-    updatedOrderProductsObject.shippingPrice =
-      updatedOrder.shippingPrice.toFixed(2)
+    updatedOrderProductsObject.totalPrice = updatedOrder.totalPrice
+    updatedOrderProductsObject.shippingPrice = updatedOrder.shippingPrice
     updatedOrderProductsObject.isPaid = updatedOrder.isPaid
     updatedOrderProductsObject.productsCount = updatedOrderProductsCount
     updatedOrderProductsObject.orderId = updatedOrder._id
@@ -370,27 +351,16 @@ const updateOrderToPaidByStripe = asyncHandler(async (req, res) => {
           item.qty +
           ' x ' +
           item.name +
-          ' €' +
-          item.price.toFixed(2) +
+          ' Kč' +
+          item.price +
           ' zľava: ' +
           discounts[i].discount +
           ' %'
       } else {
         updatedOrderProductsObject[i] =
-          ' ' +
-          item.qty +
-          ' x ' +
-          item.name +
-          ' €' +
-          item.price.toFixed(2) +
-          '  '
+          ' ' + item.qty + ' x ' + item.name + ' Kč' + item.price + '  '
       }
     })
-
-    // updatedOrderLoop.map((item, i) => {
-    //   updatedOrderProductsObject[i] =
-    //     item.qty + ' x ' + item.name + ' €' + item.price.toFixed(2)
-    // })
 
     // object with address info
     const updatedOrderAddressInfo = updatedOrder.shippingAddress
@@ -401,9 +371,8 @@ const updateOrderToPaidByStripe = asyncHandler(async (req, res) => {
     updatedOrderProductsObject.paidByWhom = updatedOrder.paymentResult.name
     updatedOrderProductsObject.orderNumber = orderNumber
     updatedOrderProductsObject.taxPrice = updatedOrder.taxPrice
-    updatedOrderProductsObject.totalPrice = updatedOrder.totalPrice.toFixed(2)
-    updatedOrderProductsObject.shippingPrice =
-      updatedOrder.shippingPrice.toFixed(2)
+    updatedOrderProductsObject.totalPrice = updatedOrder.totalPrice
+    updatedOrderProductsObject.shippingPrice = updatedOrder.shippingPrice
     updatedOrderProductsObject.isPaid = updatedOrder.isPaid
     updatedOrderProductsObject.productsCount = updatedOrderProductsCount
     updatedOrderProductsObject.orderId = updatedOrder._id
@@ -439,6 +408,14 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
     order.deliveredAt = Date.now()
 
     const updatedOrder = await order.save()
+
+    try {
+      // send email notif
+      await new Email(order, '', '').sendDeliveredNotificationEmail()
+    } catch (error) {
+      console.log(error)
+    }
+
     res.json(updatedOrder)
   } else {
     res.status(404)

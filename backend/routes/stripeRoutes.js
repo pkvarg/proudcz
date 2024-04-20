@@ -17,7 +17,7 @@ const createStripe = async (req, res) => {
       }
       return {
         price_data: {
-          currency: 'eur',
+          currency: 'czk',
           product_data: {
             name: item.name,
           },
@@ -42,7 +42,7 @@ const createStripe = async (req, res) => {
         {
           shipping_rate_data: {
             type: 'fixed_amount',
-            fixed_amount: { amount: shippingPrice * 100, currency: 'eur' },
+            fixed_amount: { amount: shippingPrice * 100, currency: 'czk' },
             display_name: 'Poštovné',
           },
         },

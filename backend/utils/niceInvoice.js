@@ -113,7 +113,7 @@ let customerInformation = (doc, invoice) => {
 let invoiceTable = (doc, invoice) => {
   let i
   const invoiceTableTop = 330
-  const currencySymbol = '€'
+  const currencySymbol = 'Kč'
 
   doc.font('Cardo-Bold')
   tableRow(doc, invoiceTableTop, 'Produkty', '', 'Cena/ks', 'Počet', 'Celkem')
@@ -121,9 +121,6 @@ let invoiceTable = (doc, invoice) => {
   doc.font('Cardo')
 
   let productsTotalPrice = 0
-  const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2)
-  }
 
   let disc = 0
   let discount = ''
@@ -146,9 +143,9 @@ let invoiceTable = (doc, invoice) => {
       position,
       item.name,
       discount,
-      formatCurrency(currencySymbol, item.price.toFixed(2).replace('.', ',')),
+      formatCurrency(item.price, currencySymbol),
       item.qty,
-      formatCurrency(currencySymbol, total.toFixed(2).replace('.', ','))
+      formatCurrency(total, currencySymbol)
     ),
       generateHr(doc, position + 20)
   }
@@ -156,7 +153,6 @@ let invoiceTable = (doc, invoice) => {
   let shippingPrice = invoice.shippingPrice
   // let tax = invoice.taxPrice
   let totalPrice = invoice.total
-  productsTotalPrice = addDecimals(productsTotalPrice)
 
   const productsTotalPosition = invoiceTableTop + (i + 1) * 30
   doc.font('Cardo-Bold')
@@ -164,7 +160,7 @@ let invoiceTable = (doc, invoice) => {
     doc,
     productsTotalPosition,
     'Produkty',
-    formatCurrency(currencySymbol, productsTotalPrice.replace('.', ','))
+    formatCurrency(productsTotalPrice, currencySymbol)
   )
 
   const shippingPosition = productsTotalPosition + 20
@@ -173,7 +169,7 @@ let invoiceTable = (doc, invoice) => {
     doc,
     shippingPosition,
     'Poštovné',
-    formatCurrency(currencySymbol, shippingPrice.replace('.', ','))
+    formatCurrency(shippingPrice, currencySymbol)
   )
 
   const paidToDatePosition = shippingPosition + 20
@@ -182,7 +178,7 @@ let invoiceTable = (doc, invoice) => {
     doc,
     paidToDatePosition,
     'Celkem',
-    formatCurrency(currencySymbol, totalPrice.replace('.', ','))
+    formatCurrency(totalPrice, currencySymbol)
   )
 }
 
@@ -217,12 +213,8 @@ let generateHr = (doc, y) => {
   doc.strokeColor('#aaaaaa').lineWidth(1).moveTo(50, y).lineTo(560, y).stroke()
 }
 
-// let formatCurrency = (cents, symbol) => {
-//   return symbol + cents.toFixed(2)
-// }
-
 let formatCurrency = (cents, symbol) => {
-  return symbol + cents
+  return cents + symbol
 }
 
 let companyAddress = (doc, address) => {
