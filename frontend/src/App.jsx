@@ -45,6 +45,7 @@ import Reviews from './screens/Reviews'
 import Favorites from './screens/Favorites'
 import OrderStripeSuccess from './screens/OrderStripeSuccess'
 import OrderStripeFail from './screens/OrderStripeFail'
+import CompleteRegistration from './screens/CompleteRegistration'
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { firebaseConfiguration } from './firebaseConfig'
@@ -154,6 +155,11 @@ const App = () => {
               <Route path='/trade-rules' element={<TradeRules />} />
               <Route path='/admin/reviews' element={<Reviews />} />
               <Route path='/favorites' element={<Favorites />} />
+              <Route
+                path='/registerLink/:email/:token'
+                element={<CompleteRegistration />}
+              />
+              <Route path='/registerLink' element={<CompleteRegistration />} />
             </Routes>
           </Container>
         </main>

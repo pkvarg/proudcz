@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
 import Email from '../utils/email.js'
+import createRegisterToken from '../utils/createRegisterToken.js'
 
 // @desc Auth user & get token
 // @desc POST /api/users/login
@@ -10,6 +11,11 @@ import Email from '../utils/email.js'
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
+  if (!user) {
+    res.status(401)
+    throw new Error('Uživatel neexistuje.')
+  }
+
   if (!user.isRegistered) {
     res.status(401)
     throw new Error(
