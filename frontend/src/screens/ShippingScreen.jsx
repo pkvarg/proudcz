@@ -35,25 +35,6 @@ const ShippingScreen = () => {
   const [billingDIC, setBillingDIC] = useState(shippingAddress.billingDIC)
   const [note, setNote] = useState('')
 
-  // const [name, setName] = useState('')
-
-  // const [address, setAddress] = useState('')
-  // const [city, setCity] = useState('')
-  // const [postalCode, setPostalCode] = useState('')
-  // const [country, setCountry] = useState('')
-
-  // // Billing Address
-  // const [billingName, setBillingName] = useState('')
-
-  // const [billingAddress, setBillingAddress] = useState('')
-  // const [billingCity, setBillingCity] = useState('')
-  // const [billingPostalCode, setBillingPostalCode] = useState('')
-  // const [billingCountry, setBillingCountry] = useState('')
-
-  // const [billingICO, setBillingICO] = useState('')
-
-  // const [billingDIC, setBillingDIC] = useState('')
-
   const dispatch = useDispatch('')
   const navigate = useNavigate('')
 
@@ -78,13 +59,6 @@ const ShippingScreen = () => {
     )
     navigate('/payment')
   }
-
-  // const showBillingAddress = (e) => {
-  //   setDisplay('show')
-  // }
-  // const showBillingICO = (e) => {
-  //   setDisplayICO('show')
-  // }
 
   const [checked, setChecked] = useState(false)
   const handleChange = () => {

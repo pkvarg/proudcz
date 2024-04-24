@@ -7,6 +7,7 @@ const router = express.Router()
 const createStripe = async (req, res) => {
   const { products, email, url, initPaymentId, shippingPrice } =
     req.body.requestBody
+  console.log('stripe', url, initPaymentId, shippingPrice)
 
   try {
     const lineItems = products.map((product) => {
@@ -43,7 +44,7 @@ const createStripe = async (req, res) => {
           shipping_rate_data: {
             type: 'fixed_amount',
             fixed_amount: { amount: shippingPrice * 100, currency: 'czk' },
-            display_name: 'Poštovné',
+            display_name: 'Poštovné a balné',
           },
         },
       ],

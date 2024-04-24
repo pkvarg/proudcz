@@ -129,7 +129,7 @@ export const forgotPasswordAction = (email, origURL) => async (dispatch) => {
       payload: data,
     })
 
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    //localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     dispatch({
       type: FORGOT_PASSWORD_FAIL,

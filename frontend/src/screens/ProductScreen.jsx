@@ -266,11 +266,12 @@ const ProductScreen = () => {
                             <ListGroup.Item>
                               <Row className='prod-screen-items'>
                                 <Col>Počet:</Col>
-                                <Col>
+                                <Col style={{ paddingLeft: '30%' }}>
                                   <Form.Control
                                     as='select'
                                     value={qty}
                                     onChange={(e) => setQty(e.target.value)}
+                                    style={{ paddingLeft: '25px' }}
                                   >
                                     {[
                                       ...Array(product.countInStock).keys(),

@@ -5,6 +5,7 @@ const __dirname = path.resolve()
 
 const niceInvoice = (invoice, path) => {
   console.log('invoice:', invoice)
+  
   let doc = new PDFDocument({ size: 'A4', margin: 40 })
 
   doc.registerFont('Cardo', __dirname + '/utils/fonts/Cardo-Regular.ttf')
@@ -25,11 +26,11 @@ let header = (doc, invoice) => {
       .image(invoice.header.company_logo, 50, 45, { width: 100 })
       .fontSize(18)
       .font('Cardo-Bold')
-      .text(invoice.header.company_name, 515, 31)
+      .text(invoice.header.company_name, 227, 31)
       .moveDown()
   } else {
     doc.fontSize(18).font('Cardo-Bold')
-    text(invoice.header.company_name, 515, 31).moveDown()
+    text(invoice.header.company_name, 227, 31).moveDown()
   }
 
   if (invoice.header.company_address.length !== 0) {
@@ -37,12 +38,12 @@ let header = (doc, invoice) => {
   }
   // ico dic
   if (invoice.ico.length !== 0) {
-    doc.font('Cardo-Bold').fontSize(15).text(invoice.ico, 454, 85)
+    doc.font('Cardo-Bold').fontSize(15).text(invoice.ico, 468, 85)
   }
-  if (invoice.dic.length !== 0) {
-    doc.font('Cardo-Bold').fontSize(15).text(invoice.dic, 439.5, 105)
-  }
-  doc.font('Cardo').fontSize(12).text('MVSR VUS/1-900/90-26215-1', 395, 125)
+  // if (invoice.dic.length !== 0) {
+  //   doc.font('Cardo-Bold').fontSize(15).text(invoice.dic, 439.5, 105)
+  //}
+  //doc.font('Cardo').fontSize(12).text('MVSR VUS/1-900/90-26215-1', 395, 125)
 }
 
 let customerInformation = (doc, invoice) => {
@@ -51,7 +52,7 @@ let customerInformation = (doc, invoice) => {
     .fontSize(20)
     .text('Faktura - Daňový doklad:', 50, 160)
     .fontSize(15)
-    .text(invoice.orderNumber, 275, 165)
+    .text(invoice.orderNumber, 300, 165)
   generateHr(doc, 185)
 
   const customerInformationTop = 200
@@ -66,7 +67,7 @@ let customerInformation = (doc, invoice) => {
     //
     .text('Způsob platby:', 50, customerInformationTop + 30)
     .text(invoice.paymentMethod, 175, customerInformationTop + 30)
-  if (invoice.billing.name !== undefined) {
+  if (invoice.billing.name !== '') {
     doc
       .font('Cardo-Bold')
       .text(invoice.billing.name, 320, customerInformationTop)

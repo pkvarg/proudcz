@@ -76,8 +76,8 @@ const OrderStripeSuccess = () => {
     )
   }
 
-  let shippingPrice
-  order?.totalPrice > 100 ? (shippingPrice = 0) : (shippingPrice = 3.5)
+  let shippingPrice = 75
+  
 
   //useEffect becomes shorter
   useEffect(() => {
@@ -234,7 +234,7 @@ const OrderStripeSuccess = () => {
               <ListGroup.Item>
                 <Row>
                   <div className='cart-box-right'>
-                    Poštovné:
+                    Poštovné a balné:
                     <div className='ml-auto'> {order.shippingPrice} Kč</div>
                   </div>
                 </Row>

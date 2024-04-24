@@ -164,16 +164,7 @@ const CartScreen = () => {
               <Row>
                 <Col>
                   <div className='cart-box-right'>
-                    Poštovné:{' '}
-                    <div className='ml-auto'>
-                      {cartItems.reduce(
-                        (acc, item) => acc + Number(item.qty * item.price),
-                        0
-                      ) > 260
-                        ? 0
-                        : 60}{' '}
-                      Kč
-                    </div>
+                    Poštovné a balné: <div className='ml-auto'>75 Kč</div>
                   </div>
                 </Col>
               </Row>
@@ -189,15 +180,7 @@ const CartScreen = () => {
                           (acc, item) => acc + Number(item.qty * item.price),
                           0
                         )
-                      ) +
-                        Number(
-                          cartItems.reduce(
-                            (acc, item) => acc + Number(item.qty * item.price),
-                            0
-                          ) > 260
-                            ? 0
-                            : 60
-                        )}{' '}
+                      ) + Number(75)}{' '}
                       Kč
                     </div>
                   </div>

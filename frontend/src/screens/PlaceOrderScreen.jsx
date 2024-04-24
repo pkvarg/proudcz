@@ -20,7 +20,7 @@ const PlaceOrderScreen = () => {
   )
 
   // DEFINE SHIPPING PRICE and TAX HERE
-  cart.shippingPrice = cart.itemsPrice > 260 ? 0 : 60
+  cart.shippingPrice = 75
   // cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
 
   cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice)
@@ -68,7 +68,7 @@ const PlaceOrderScreen = () => {
 
   const placeOrderhandler = () => {
     if (gdrpOrderChecked && tradeRulesOrderChecked) {
-      setClicked(true)
+      //setClicked(true)
       dispatch(
         createOrder({
           orderItems: cart.cartItems,
@@ -127,11 +127,11 @@ const PlaceOrderScreen = () => {
                     {cart.shippingAddress.billingCity},{' '}
                     {cart.shippingAddress.billingCountry}
                     {cart.shippingAddress.billingICO && (
-                      <div>
+                      <span>
                         IČO:
                         {cart.shippingAddress.billingICO}, DIČ:
                         {cart.shippingAddress.billingDIC}
-                      </div>
+                      </span>
                     )}
                   </p>
                 </div>
@@ -209,7 +209,7 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <div className='cart-box-right'>
-                    Poštovné:
+                    Poštovné a balné:
                     <div className='ml-auto'> {cart.shippingPrice} Kč</div>
                   </div>
                 </Row>

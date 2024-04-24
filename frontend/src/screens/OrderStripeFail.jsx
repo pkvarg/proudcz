@@ -9,7 +9,6 @@ import {
   Image,
   Card,
   ListGroupItem,
-  // ListGroupItem,
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -18,10 +17,6 @@ import {
   getOrderDetails,
   payOrder,
   payOrderStripe,
-  // deleteOrder,
-  deliverOrder,
-  cancellOrder,
-  // createOrder,
 } from '../actions/orderActions'
 
 import {
@@ -41,7 +36,9 @@ const OrderStripeFail = () => {
 
   const dispatch = useDispatch()
   const params = useParams()
-  const locationOrder = useLocation()
+  let locationOrder = useLocation()
+  const newUrl = locationOrder.pathname.replace('/stripe-fail', '')
+  locationOrder.pathname = newUrl
 
   const navigate = useNavigate()
   const orderId = params.id
@@ -72,8 +69,7 @@ const OrderStripeFail = () => {
     )
   }
 
-  let shippingPrice
-  order?.totalPrice > 100 ? (shippingPrice = 0) : (shippingPrice = 3.5)
+  let shippingPrice = 75
 
   const configBearer = {
     headers: {
@@ -158,34 +154,50 @@ const OrderStripeFail = () => {
   // STRIPE PAYMENT
 
   const makePayment = async () => {
-    const stripe = await stripePromise
-    const requestBody = {
-      userName: userInfo.name,
-      email: userInfo.email,
-      products: ps,
-      url: locationOrder,
-      shippingPrice,
+    console.log('clicked stripe')
+    // create a unique init payment ID in db
+
+    if (order._id) {
+      try {
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/init-payment`,
+          {},
+          configBearer
+        )
+
+        // setInitPaymentId(data.initPaymentId);
+
+        // Proceed with Stripe checkout session creation only after initPaymentId is set
+        const stripe = await stripePromise
+        const requestBody = {
+          userName: userInfo.name,
+          email: userInfo.email,
+          products: ps,
+          url: locationOrder,
+          initPaymentId: data.initPaymentId, // Use the retrieved initPaymentId
+          shippingPrice,
+        }
+
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+
+        const response = await axios.post(
+          '/api/create-stripe-checkout-session',
+          { requestBody },
+          config
+        )
+
+        const session = await response.data
+        await stripe.redirectToCheckout({
+          sessionId: session.id,
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-
-    const response = await axios.post(
-      '/api/create-stripe-checkout-session',
-      { requestBody },
-      config
-    )
-
-    console.log('resp', response.data.id)
-
-    //window.location.href = response.data
-    const session = await response.data
-    await stripe.redirectToCheckout({
-      sessionId: session.id,
-    })
   }
 
   return loading ? (
@@ -252,9 +264,10 @@ const OrderStripeFail = () => {
                   vaše platba odešla
                 </p>
                 <p>
-                  2. Uhraďte platbu na účet číslo: IBAN.... Variabilní symbol je{' '}
-                  {order.orderNumber}
+                  2. Uhraďte platbu na účet číslo: IBAN CZ12 0800 0000 0002 1943
+                  6319
                 </p>
+                <p>Variabilní symbol je {order.orderNumber}</p>
                 {/* <p>3. Kontaktujte nás.</p> */}
               </Message>
             </ListGroup.Item>
@@ -316,7 +329,7 @@ const OrderStripeFail = () => {
               <ListGroup.Item>
                 <Row>
                   <div className='cart-box-right'>
-                    Poštovné:
+                    Poštovné a balné:
                     <div className='ml-auto'> {order.shippingPrice} Kč</div>
                   </div>
                 </Row>

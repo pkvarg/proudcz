@@ -187,14 +187,14 @@ const addOrderItems = asyncHandler(async (req, res) => {
       shippingPrice: createdOrder.shippingPrice,
       orderNumber: createdOrder.orderNumber,
       header: {
-        company_name: 'Prúd',
-        company_logo: __dirname + '/utils/prud-prud-logo.png',
-        company_address: 'Špieszova 5, 84104, Bratislava, Slovensko',
+        company_name: 'Adam Surjomartono – Distribuce Proud',
+        company_logo: __dirname + '/utils/wwwproudbanner.png',
+        company_address: 'Hnězdenská 586/16, 18100 Praha 8, Česká republika',
       },
-      ico: 'IČO: 36076589',
-      dic: 'DIČ: 2022028173',
+      ico: 'IČ: 68368844',
+      //dic: 'DIČ: 2022028173',
       footer: {
-        text: 'Faktúra zároveň slúži ako dodací list',
+        text: 'Faktura zároveň slouží jako dodací list',
       },
       currency_symbol: 'Kč',
       date: {
