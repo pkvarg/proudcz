@@ -5,7 +5,7 @@ const __dirname = path.resolve()
 
 const niceInvoice = (invoice, path) => {
   console.log('invoice:', invoice)
-  
+
   let doc = new PDFDocument({ size: 'A4', margin: 40 })
 
   doc.registerFont('Cardo', __dirname + '/utils/fonts/Cardo-Regular.ttf')
@@ -36,14 +36,10 @@ let header = (doc, invoice) => {
   if (invoice.header.company_address.length !== 0) {
     companyAddress(doc, invoice.header.company_address)
   }
-  // ico dic
+  // ico
   if (invoice.ico.length !== 0) {
-    doc.font('Cardo-Bold').fontSize(15).text(invoice.ico, 468, 85)
+    doc.font('Cardo-Bold').fontSize(15).text(invoice.ico, 454, 85)
   }
-  // if (invoice.dic.length !== 0) {
-  //   doc.font('Cardo-Bold').fontSize(15).text(invoice.dic, 439.5, 105)
-  //}
-  //doc.font('Cardo').fontSize(12).text('MVSR VUS/1-900/90-26215-1', 395, 125)
 }
 
 let customerInformation = (doc, invoice) => {
@@ -72,20 +68,16 @@ let customerInformation = (doc, invoice) => {
       .font('Cardo-Bold')
       .text(invoice.billing.name, 320, customerInformationTop)
       .font('Cardo')
-      .text(
-        invoice.billing.address + ', ' + invoice.billing.city,
-        320,
-        customerInformationTop + 15
-      )
+      .text(invoice.billing.address, 320, customerInformationTop + 15)
+      .text(invoice.billing.city, 320, customerInformationTop + 30)
       .text(
         invoice.billing.postalCode + ', ' + invoice.billing.country,
         320,
-        customerInformationTop + 30
+        customerInformationTop + 45
       )
-      .text('IČO:', 320, customerInformationTop + 45)
-      .text(invoice.billing.ICO, 350, customerInformationTop + 45)
-      .text('DIČ:', 320, customerInformationTop + 60)
-      .text(invoice.billing.DIC, 350, customerInformationTop + 60)
+      .text('IČO:', 320, customerInformationTop + 60)
+      .text(invoice.billing.ICO, 353, customerInformationTop + 60)
+
       .moveDown()
 
     generateHr(doc, 282)
@@ -94,15 +86,12 @@ let customerInformation = (doc, invoice) => {
       .font('Cardo-Bold')
       .text(invoice.shipping.name, 320, customerInformationTop)
       .font('Cardo')
-      .text(
-        invoice.shipping.address + ', ' + invoice.shipping.city,
-        320,
-        customerInformationTop + 15
-      )
+      .text(invoice.shipping.address, 320, customerInformationTop + 15)
+      .text(invoice.shipping.city, 320, customerInformationTop + 30)
       .text(
         invoice.shipping.postalCode + ', ' + invoice.shipping.country,
         320,
-        customerInformationTop + 30
+        customerInformationTop + 45
       )
 
       .moveDown()

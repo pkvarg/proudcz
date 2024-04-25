@@ -130,7 +130,6 @@ const initialState = {
       billingPostalCode: '',
       billingCountry: '',
       billingICO: '',
-      billingDIC: '',
     },
   },
   userLogin: { userInfo: userInfoFromStorage },

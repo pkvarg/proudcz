@@ -68,7 +68,7 @@ const PlaceOrderScreen = () => {
 
   const placeOrderhandler = () => {
     if (gdrpOrderChecked && tradeRulesOrderChecked) {
-      //setClicked(true)
+      setClicked(true)
       dispatch(
         createOrder({
           orderItems: cart.cartItems,
@@ -125,12 +125,11 @@ const PlaceOrderScreen = () => {
                     {cart.shippingAddress.billingAddress},{' '}
                     {cart.shippingAddress.billingPostalCode},{' '}
                     {cart.shippingAddress.billingCity},{' '}
-                    {cart.shippingAddress.billingCountry}
+                    {cart.shippingAddress.billingCountry}{' '}
                     {cart.shippingAddress.billingICO && (
                       <span>
                         IČO:
-                        {cart.shippingAddress.billingICO}, DIČ:
-                        {cart.shippingAddress.billingDIC}
+                        {cart.shippingAddress.billingICO}
                       </span>
                     )}
                   </p>

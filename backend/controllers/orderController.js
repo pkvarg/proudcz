@@ -132,10 +132,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       addressInfo.billingCountry +
       ', ' +
       'IČO: ' +
-      addressInfo.billingICO +
-      ', ' +
-      'DIČ: ' +
-      addressInfo.billingDIC
+      addressInfo.billingICO
     productsObject.note = createdOrder.shippingAddress.note
 
     //invoice
@@ -177,7 +174,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
         country: createdOrder.shippingAddress.billingCountry,
         postalCode: createdOrder.shippingAddress.billingPostalCode,
         ICO: createdOrder.shippingAddress.billingICO,
-        DIC: createdOrder.shippingAddress.billingDIC,
       },
       items: createdOrder.orderItems,
       discounts: discounts,
@@ -191,8 +187,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
         company_logo: __dirname + '/utils/wwwproudbanner.png',
         company_address: 'Hnězdenská 586/16, 18100 Praha 8, Česká republika',
       },
-      ico: 'IČ: 68368844',
-      //dic: 'DIČ: 2022028173',
+      ico: 'IČO: 68368844',
+
       footer: {
         text: 'Faktura zároveň slouží jako dodací list',
       },

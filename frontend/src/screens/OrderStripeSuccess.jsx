@@ -77,7 +77,6 @@ const OrderStripeSuccess = () => {
   }
 
   let shippingPrice = 75
-  
 
   //useEffect becomes shorter
   useEffect(() => {
@@ -139,8 +138,7 @@ const OrderStripeSuccess = () => {
                     {cart.shippingAddress.billingICO && (
                       <div>
                         IČO:
-                        {cart.shippingAddress.billingICO}, DIČ:
-                        {cart.shippingAddress.billingDIC}
+                        {cart.shippingAddress.billingICO}
                       </div>
                     )}
                   </p>

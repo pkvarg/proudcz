@@ -256,8 +256,7 @@ const OrderScreen = () => {
                     {cart.shippingAddress.billingICO && (
                       <div>
                         IČO:
-                        {cart.shippingAddress.billingICO}, DIČ:
-                        {cart.shippingAddress.billingDIC}
+                        {cart.shippingAddress.billingICO}
                       </div>
                     )}
                   </p>

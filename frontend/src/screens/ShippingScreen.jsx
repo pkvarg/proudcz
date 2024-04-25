@@ -32,7 +32,6 @@ const ShippingScreen = () => {
 
   const [billingICO, setBillingICO] = useState(shippingAddress.billingICO)
 
-  const [billingDIC, setBillingDIC] = useState(shippingAddress.billingDIC)
   const [note, setNote] = useState('')
 
   const dispatch = useDispatch('')
@@ -53,7 +52,7 @@ const ShippingScreen = () => {
         billingPostalCode,
         billingCountry,
         billingICO,
-        billingDIC,
+
         note,
       })
     )
@@ -214,7 +213,7 @@ const ShippingScreen = () => {
                   name='billingCheck'
                   onChange={handleChangeICO}
                 />
-                <h2 className='my-5 billing-icodic-title-check'>IČO a DIČ</h2>
+                <h2 className='my-5 billing-icodic-title-check'>IČO</h2>
               </Form.Group>
               {checkedICO ? (
                 <div>
@@ -225,15 +224,6 @@ const ShippingScreen = () => {
                       placeholder='IČO'
                       value={billingICO}
                       onChange={(e) => setBillingICO(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-                  <Form.Group controlId='billingDIC'>
-                    <Form.Label>DIČ</Form.Label>
-                    <Form.Control
-                      type='text'
-                      placeholder='DIČ'
-                      value={billingDIC}
-                      onChange={(e) => setBillingDIC(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
                 </div>
