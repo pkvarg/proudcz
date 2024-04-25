@@ -50,6 +50,10 @@ router.post('/currentUser', async (req, res) => {
 })
 
 router.post('/forgot-password', authController.forgotPassword)
+router.get(
+  '/check-reset-token/:email/:id/:token',
+  authController.checkResetToken
+)
 
 router.post('/contact', async (req, res) => {
   const data = req.body.contactForm

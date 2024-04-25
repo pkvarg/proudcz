@@ -46,11 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const url = `${req.protocol}://${req.get('host')}`
 
-  console.log('rU', url)
-  // add reg
   const { registerToken, registerURL } = await createRegisterToken(email, url)
-
-  console.log('regB', registerToken, registerURL)
 
   const userExists = await User.findOne({ email })
   if (userExists) {
@@ -82,8 +78,6 @@ const checkRegistrationToken = asyncHandler(async (req, res) => {
   const user = await User.findOne({
     email,
   })
-
-  console.log(token, user.registerToken)
 
   const checkToken = user.registerToken === token
   // let expiry

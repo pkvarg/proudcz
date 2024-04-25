@@ -21,11 +21,7 @@ const Footer = () => {
 
   const increaseVisitors = async () => {
     try {
-      const { data } = await axios.put(
-        //`https://proud.pictusweb.site/api/counter/increase`,
-        `api/counter/increase`,
-        config
-      )
+      const { data } = await axios.put(`api/counter/increase`, config)
       console.log(data)
     } catch (error) {
       console.log(error)

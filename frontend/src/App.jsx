@@ -79,9 +79,10 @@ const App = () => {
               <Route path='/login/profile' element={<LoginScreen />} />
               <Route path='/register' element={<RegisterScreen />} />
               <Route
-                path='/reset-password/:token/:name/:email/:id/:genToken'
+                path='/reset-password/:email/:id/:token'
                 element={<ResetPasswordScreen />}
               />
+
               <Route path='/profile' element={<ProfileScreen />} />
 
               <Route path='/product/:id' element={<ProductScreen />} />

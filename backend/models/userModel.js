@@ -45,7 +45,6 @@ const userSchema = mongoose.Schema(
     passwordChangedAt: Date,
 
     passwordResetToken: String,
-    passwordResetExpires: Date,
   },
   {
     timestamps: true,
@@ -64,17 +63,6 @@ userSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt(10)
   this.password = await bcrypt.hash(this.password, salt)
 })
-// forgotPassword
-userSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString('hex')
-  this.passwordResetToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex')
-
-  this.passwordResetExpires = Date.now() + 10 * 60 * 100
-  return resetToken
-}
 
 const User = mongoose.model('User', userSchema)
 
