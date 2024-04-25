@@ -6,14 +6,14 @@ export default defineConfig({
   plugins: [react()],
 
   server: {
-    port: 3000,
+    port: 2003,
     proxy: {
       '/api': {
-        target: 'http://localhost:6000',
+        target: 'http://localhost:2004',
       },
 
       '/uploads': {
-        target: 'http://localhost:6000',
+        target: 'http://localhost:2004',
       },
     },
     // hmr: {

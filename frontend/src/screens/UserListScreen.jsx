@@ -31,8 +31,8 @@ const UserListScreen = () => {
 
   const getVisitors = async () => {
     const { data } = await axios.get(
-      //`https://proud.pictusweb.site/api/visitors/io/counter`,
-      `/api/counter/count`,
+      `https://proud.pictusweb.site/api/visitors/io/counter`,
+      //`/api/counter/count`,
 
       config
     )
