@@ -209,6 +209,18 @@ const Header = () => {
               </LinkContainer>
             </NavDropdown> */}
             <NavDropdown title='Novinky' className='red-navbar-item'>
+              <LinkContainer to='new-books/2024'>
+                <NavDropdown.Item>Knihy 2024</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='new-books/2023'>
+                <NavDropdown.Item>Knihy 2023</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='new-books/2022'>
+                <NavDropdown.Item>Knihy 2022</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='new-books/2021'>
+                <NavDropdown.Item>Knihy 2021</NavDropdown.Item>
+              </LinkContainer>
               <LinkContainer to='new-books/2020'>
                 <NavDropdown.Item>Knihy 2020</NavDropdown.Item>
               </LinkContainer>
@@ -216,10 +228,10 @@ const Header = () => {
                 <NavDropdown.Item>Knihy 2019</NavDropdown.Item>
               </LinkContainer>
               <LinkContainer to='new-books/2017'>
-                <NavDropdown.Item>Knihy 2017</NavDropdown.Item>
+                <NavDropdown.Item>Knihy 2018</NavDropdown.Item>
               </LinkContainer>
               <LinkContainer to='new-books/2016'>
-                <NavDropdown.Item>Knihy 2016</NavDropdown.Item>
+                <NavDropdown.Item>Knihy 2017</NavDropdown.Item>
               </LinkContainer>
             </NavDropdown>
             <NavDropdown title='Podcast' className='red-navbar-item'>

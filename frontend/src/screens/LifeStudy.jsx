@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { lifeStudy } from '../functions'
 
 const LifeStudy = () => {
-  const [subcategory, setSubcategory] = useState('Štúdium života')
+  const [subcategory, setSubcategory] = useState('Studium života')
 
-  const category = 'ŠTÚDIUM ŽIVOTA'
+  const category = 'Studium života'
 
   return (
     <div className='margined'>
@@ -18,7 +18,12 @@ const LifeStudy = () => {
 
         <h3 className='my-3'>STUDIUM ŽIVOTA</h3>
         <p>
-          Dvacetiminutové relace jsou věnovány rozsáhlému dílu Witnesse Leeho – Studiu života v Bibli. Studium života v Bibli je obsáhlé a klasické knižní dílo, které navazuje na vše, co Pán zjevil své církvi v průběhu minulých staletí až do dnešních dnů. Se svými více než 25 000 stranami komentářů ke všem biblickým knihám se řadí k nejbohatším současným a aktuálním výkladům biblické pravdy.
+          Dvacetiminutové relace jsou věnovány rozsáhlému dílu Witnesse Leeho –
+          Studiu života v Bibli. Studium života v Bibli je obsáhlé a klasické
+          knižní dílo, které navazuje na vše, co Pán zjevil své církvi v průběhu
+          minulých staletí až do dnešních dnů. Se svými více než 25 000 stranami
+          komentářů ke všem biblickým knihám se řadí k nejbohatším současným a
+          aktuálním výkladům biblické pravdy.
         </p>
       </div>
       <div className='iframes-grid'>

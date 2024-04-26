@@ -93,7 +93,7 @@ const BannerEditScreen = () => {
       </Link>
       <FormContainer>
         <h1>Banner</h1>
-        <p>Obrázok musí mať rozmery 1296x382px</p>
+        <p>Obrázek musí mít rozměry 1296x382px</p>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading ? (
@@ -103,10 +103,10 @@ const BannerEditScreen = () => {
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='banner-title'>
-              <Form.Label>Názov</Form.Label>
+              <Form.Label>Název</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Názov'
+                placeholder='Název'
                 value={bannerTitle}
                 onChange={(e) => setBannerTitle(e.target.value)}
               ></Form.Control>
@@ -116,7 +116,7 @@ const BannerEditScreen = () => {
               <Form.Label>Banner</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Obrázok'
+                placeholder='Obrázek'
                 value={image}
                 readOnly
                 // onChange={(e) => setMp3file(e.target.value)}
@@ -128,48 +128,12 @@ const BannerEditScreen = () => {
               {uploading && <Loader />}
             </Form.Group>
 
-            {/* <Form.Group controlId='category'>
-              <Form.Label>Kategória</Form.Label>
-              <Dropdown>
-                <Dropdown.Toggle
-                  variant='success'
-                  id='dropdown-basic'
-                  className='category-dropdown'
-                >
-                  Kategória
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    key='Slová života'
-                    value='Slová života'
-                    onClick={() => setCategory('Slová života')}
-                  >
-                    <h5 className='language-dropdown-lang'>Slová života</h5>
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    key='Štúdium života'
-                    value='Štúdium života'
-                    onClick={() => setCategory('Štúdium života')}
-                  >
-                    <h5 className='language-dropdown-lang'>Štúdium života</h5>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-
-              <Form.Control
-                type='text'
-                placeholder='Kategória'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group> */}
-
             <Button
               className='my-5 btn-blue rounded'
               type='submit'
               variant='primary'
             >
-              Uložiť
+              Uložit
             </Button>
           </Form>
         )}

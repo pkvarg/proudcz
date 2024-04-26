@@ -107,9 +107,9 @@ const BannerListScreen = () => {
           <Table striped bordered hover responsive className='table-sm my-5'>
             <thead>
               <tr>
-                <th>NÁZOV</th>
-                <th>SÚBOR</th>
-                <th>KATEGÓRIA</th>
+                <th>NÁZEV</th>
+                <th>SOUBOR</th>
+                <th>KATEGORIE</th>
               </tr>
             </thead>
             <tbody>

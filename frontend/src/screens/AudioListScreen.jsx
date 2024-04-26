@@ -73,7 +73,7 @@ const AudioListScreen = () => {
     <>
       <Row className='align-items-center no-mobile'>
         <Col>
-          <h1>Audio súbory</h1>
+          <h1>Audio soubory</h1>
         </Col>
         <Col className='text-end'>
           <Button className='my-3 btn-red' onClick={createAudioHandler}>
@@ -106,9 +106,9 @@ const AudioListScreen = () => {
           <Table striped bordered hover responsive className='table-sm my-5'>
             <thead>
               <tr>
-                <th>NÁZOV</th>
-                <th>SÚBOR</th>
-                <th>KATEGÓRIA</th>
+                <th>NÁZEV</th>
+                <th>SOUBOR</th>
+                <th>KATEGORIE</th>
               </tr>
             </thead>
             <tbody>
