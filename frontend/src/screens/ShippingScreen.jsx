@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,30 +9,42 @@ import { saveShippingAddress } from '../actions/cartActions'
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart)
   const { shippingAddress } = cart
-  const [name, setName] = useState(shippingAddress.name)
+  const [name, setName] = useState('')
 
-  const [address, setAddress] = useState(shippingAddress.address)
-  const [city, setCity] = useState(shippingAddress.city)
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
-  const [country, setCountry] = useState(shippingAddress.country)
+  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [postalCode, setPostalCode] = useState('')
+  const [country, setCountry] = useState('')
 
   // Billing Address
-  const [billingName, setBillingName] = useState(shippingAddress.billingName)
+  const [billingName, setBillingName] = useState('')
 
-  const [billingAddress, setBillingAddress] = useState(
-    shippingAddress.billingAddress
-  )
-  const [billingCity, setBillingCity] = useState(shippingAddress.billingCity)
-  const [billingPostalCode, setBillingPostalCode] = useState(
-    shippingAddress.billingPostalCode
-  )
-  const [billingCountry, setBillingCountry] = useState(
-    shippingAddress.billingCountry
-  )
+  const [billingAddress, setBillingAddress] = useState('')
+  const [billingCity, setBillingCity] = useState('')
+  const [billingPostalCode, setBillingPostalCode] = useState('')
+  const [billingCountry, setBillingCountry] = useState('')
 
-  const [billingICO, setBillingICO] = useState(shippingAddress.billingICO)
+  const [billingICO, setBillingICO] = useState('')
 
   const [note, setNote] = useState('')
+
+  const [phone, setPhone] = useState('')
+
+  useEffect(() => {
+    setName(shippingAddress.name)
+    setAddress(shippingAddress.address)
+    setCity(shippingAddress.city)
+    setPostalCode(shippingAddress.postalCode)
+    setCountry(shippingAddress.country)
+    setBillingName(shippingAddress.billingName)
+    setBillingAddress(shippingAddress.billingAddress)
+    setBillingCity(shippingAddress.billingCity)
+    setBillingPostalCode(shippingAddress.billingPostalCode)
+    setBillingCountry(shippingAddress.billingCountry)
+    setBillingICO(shippingAddress.billingICO)
+    setNote(shippingAddress.note)
+    setPhone(shippingAddress.phone)
+  }, [])
 
   const dispatch = useDispatch('')
   const navigate = useNavigate('')
@@ -52,8 +64,8 @@ const ShippingScreen = () => {
         billingPostalCode,
         billingCountry,
         billingICO,
-
         note,
+        phone,
       })
     )
     navigate('/payment')
@@ -97,7 +109,7 @@ const ShippingScreen = () => {
             </Form.Label>
             <Form.Control
               type='text'
-              placeholder='Adresa'
+              placeholder='Ulice a číslo'
               value={address}
               required
               onChange={(e) => setAddress(e.target.value)}
@@ -139,6 +151,17 @@ const ShippingScreen = () => {
               onChange={(e) => setCountry(e.target.value)}
             ></Form.Control>
           </Form.Group>
+
+          <Form.Group controlId='phone'>
+            <Form.Label>Telefón</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Telefon'
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+
           <Form.Group controlId='note'>
             <Form.Label>Poznámka</Form.Label>
             <Form.Control
@@ -175,7 +198,7 @@ const ShippingScreen = () => {
                 <Form.Label>Fakturační adresa</Form.Label>
                 <Form.Control
                   type='text'
-                  placeholder='Fakturačná adresa'
+                  placeholder='Ulice a číslo'
                   value={billingAddress}
                   onChange={(e) => setBillingAddress(e.target.value)}
                 ></Form.Control>

@@ -242,9 +242,9 @@ const OrderScreen = () => {
                 <strong>Adresa: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city},{' '}
                 {order.shippingAddress.postalCode},{' '}
-                {order.shippingAddress.country}
+                {order.shippingAddress.country}, {order.shippingAddress.phone}
               </p>
-              {cart.shippingAddress.billingName && (
+              {/* {cart.shippingAddress.billingName && (
                 <div>
                   <h4>Fakturační údaje</h4>
                   <p>
@@ -254,16 +254,38 @@ const OrderScreen = () => {
                     {cart.shippingAddress.billingCity},{' '}
                     {cart.shippingAddress.billingCountry}
                     {cart.shippingAddress.billingICO && (
-                      <div>
+                      <span>
                         IČO:
                         {cart.shippingAddress.billingICO}
-                      </div>
+                      </span>
                     )}
                   </p>
                 </div>
               )}
               {cart.shippingAddress.note && (
                 <h5>Poznámka: {cart.shippingAddress.note}</h5>
+              )} */}
+
+              {order.shippingAddress.billingName && (
+                <div>
+                  <h4>Fakturační údaje</h4>
+                  <p>
+                    {order.shippingAddress.billingName},{' '}
+                    {order.shippingAddress.billingAddress},{' '}
+                    {order.shippingAddress.billingPostalCode},{' '}
+                    {order.shippingAddress.billingCity},{' '}
+                    {order.shippingAddress.billingCountry}
+                    {order.shippingAddress.billingICO && (
+                      <span>
+                        IČO:
+                        {order.shippingAddress.billingICO}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
+              {order.shippingAddress.note && (
+                <h5>Poznámka: {order.shippingAddress.note}</h5>
               )}
 
               <h2>Stav objednávky</h2>
