@@ -8,8 +8,6 @@ import {
   getOrderDetails,
   payOrder,
   payOrderStripe,
-  deliverOrder,
-  cancellOrder,
 } from '../actions/orderActions'
 
 import {

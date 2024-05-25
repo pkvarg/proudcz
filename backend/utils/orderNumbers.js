@@ -7,6 +7,7 @@ export const getOrderNumber = async () => {
   let date = Date.now()
   let thisYear = new Date(date).getFullYear()
   let orderNumber = 0
+  let orderString = ''
 
   function addLeadingZeros(num, totalLength) {
     return String(num).padStart(totalLength, '0')
@@ -50,9 +51,10 @@ export const getOrderNumber = async () => {
     thisYearsOrdersCount.toString()
     let addedZeros = addLeadingZeros(thisYearsOrdersCount, 4)
     orderNumber = thisYear + addedZeros
+    orderString = orderNumber.toString() + 'W'
   }
 
   console.log('orderNo', orderNumber)
 
-  return orderNumber
+  return orderString
 }

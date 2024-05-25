@@ -18,7 +18,7 @@ const Eshop = () => {
   const { loading, error, products } = productList
   useEffect(() => {
     dispatch(listAllProducts())
-  }, [dispatch])
+  }, [dispatch, category])
 
   return (
     <>
@@ -82,38 +82,41 @@ const Eshop = () => {
               {category.replace('-', ' ').replace('-', ' ').replace('-', ' ')}
             </h4>
             {category !== 'abecedný-zoznam-kníh'
-              ? products.map(
-                  (product) =>
-                    product.category === category && (
-                      <>
-                        <Col
-                          className='
+              ? products
+                  .filter(
+                    (product) =>
+                      product.category === category ||
+                      product.category2 === category
+                  )
+                  .map((product) => (
+                    <>
+                      <Col
+                        className='
             align-items-stretch d-flex no-mobile
             '
-                          key={product._id}
-                          sm={12}
-                          md={6}
-                          lg={4}
-                          xl={3}
-                        >
-                          <Product product={product} />
-                        </Col>
+                        key={product._id}
+                        sm={12}
+                        md={6}
+                        lg={4}
+                        xl={3}
+                      >
+                        <Product product={product} />
+                      </Col>
 
-                        <Col
-                          className='
+                      <Col
+                        className='
                       align-items-stretch mobile-only
                       '
-                          key={product._id}
-                          sm={12}
-                          md={6}
-                          lg={4}
-                          xl={3}
-                        >
-                          <Product product={product} />
-                        </Col>
-                      </>
-                    )
-                )
+                        key={product._id}
+                        sm={12}
+                        md={6}
+                        lg={4}
+                        xl={3}
+                      >
+                        <Product product={product} />
+                      </Col>
+                    </>
+                  ))
               : products.map((product) => (
                   <Link
                     className='eshop-abc-product'

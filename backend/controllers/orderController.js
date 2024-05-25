@@ -192,6 +192,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
         company_address: 'Hnězdenská 586/16, 18100 Praha 8, Česká republika',
       },
       ico: 'IČO: 68368844',
+      note: productsObject.note,
+      invoice_produced_by: 'Vyhotovil: AS',
 
       footer: {
         text: 'Faktura zároveň slouží jako dodací list',
