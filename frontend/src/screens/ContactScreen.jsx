@@ -12,7 +12,7 @@ const ContactScreen = () => {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [subject, setSubject] = useState('')
+  //const [subject, setSubject] = useState('')
   const [emailMessage, setEmailMessage] = useState('')
   const [passwordGroupOne, setPasswordGroupOne] = useState(x)
   const [passwordGroupTwo, setPasswordGroupTwo] = useState(y)
@@ -32,7 +32,7 @@ const ContactScreen = () => {
   const contactForm = {
     name,
     email,
-    subject,
+    //subject,
     emailMessage,
   }
   const submitHandler = (e) => {
@@ -41,14 +41,14 @@ const ContactScreen = () => {
       setMessage('Neodesláno! Kontaktujte nás telefonicky nebo emailem, prosím')
       setName('')
       setEmail('')
-      setSubject('')
+      // setSubject('')
       setEmailMessage('')
     } else {
       dispatch(sendContactFormAction(contactForm))
       setMessageSuccess('Zpráva úspěšně odeslána')
       setName('')
       setEmail('')
-      setSubject('')
+      // setSubject('')
       setEmailMessage('')
     }
   }
@@ -89,7 +89,7 @@ const ContactScreen = () => {
               onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='subject'>
+          {/* <Form.Group controlId='subject'>
             <Form.Label>Předmět</Form.Label>
             <Form.Control
               type='subject'
@@ -97,7 +97,7 @@ const ContactScreen = () => {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
             ></Form.Control>
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group controlId='message'>
             <Form.Label>
               Zpráva<sup>*</sup>

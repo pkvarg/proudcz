@@ -53,14 +53,14 @@ class Email {
       port: 465,
       secure: true, // use TLS
       auth: {
-        user: process.env.NODEJS_USERNAME,
-        pass: process.env.NODEJS_PASSWORD,
+        user: process.env.ADMIN_USERNAME,
+        pass: process.env.ADMIN_PASSWORD,
       },
     })
   }
 
   // send the actual email
-  async send(template, subject, adminOnly) {
+  async send(template, subject, adminOnly, accounting) {
     const __dirname = path.resolve()
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(
@@ -95,12 +95,18 @@ class Email {
       }
     )
 
+    const admin1 = process.env.ESHOP_BCC
+    const admin2 = process.env.DEV_BCC
+    const accountant = process.env.ACCOUNTANT_BCC
+    const admin2andAcc = [admin2, accountant].join(', ')
+
     if (!this.file) {
       console.log('no file')
       let mailOptions = {
         from: this.from,
-        to: !adminOnly ? this.to : process.env.NODEJS_BCC,
-        bcc: !adminOnly && process.env.NODEJS_BCC,
+        to: !adminOnly && this.to,
+        cc: admin1,
+        bcc: accounting ? admin2andAcc : admin2,
         subject,
         html,
         text: htmlToText(html),
@@ -115,8 +121,9 @@ class Email {
       // 2) Define email options
       let mailOptions = {
         from: this.from,
-        to: !adminOnly ? this.to : process.env.NODEJS_BCC,
-        bcc: !adminOnly && process.env.NODEJS_BCC,
+        to: !adminOnly && this.to,
+        cc: admin1,
+        bcc: accounting ? admin2andAcc : admin2,
         subject,
         html,
         text: htmlToText(html),
@@ -139,7 +146,8 @@ class Email {
     await this.send(
       'orderToEmail',
       `Vaše objednávka ${this.orderNumber}`,
-      false
+      false,
+      true
     )
   }
 
@@ -147,7 +155,8 @@ class Email {
     await this.send(
       'lowStoragePieces',
       `Počet ${this.firstName} klesl pod 10`,
-      true
+      true,
+      false
     )
   }
 
@@ -155,47 +164,59 @@ class Email {
     await this.send(
       'failedPaymentNotification',
       `Platba ${this.orderNumber} selhala`,
-      true
+      true,
+      false
     )
   }
 
   async sendPaymentErrorEmail() {
-    await this.send('paymentError', `Platba ${this.to} selhala`, true)
+    await this.send('paymentError', `Platba ${this.to} selhala`, true, false)
   }
 
   async sendDeliveredNotificationEmail() {
     await this.send(
       'deliveredOrderEmail',
       `Vaše objednávka ${this.orderNumber} byla odeslána`,
+      false,
       false
     )
   }
 
   async sendPaymentSuccessfullToEmail() {
-    await this.send('paymentSuccessfull', `Objednávka zaplacená`, false)
+    await this.send('paymentSuccessfull', `Objednávka zaplacená`, false, false)
   }
 
   async sendPasswordReset() {
-    await this.send('passwordReset', 'Změňte si Vaše heslo', false)
+    await this.send('passwordReset', 'Změňte si Vaše heslo', false, false)
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'Úspěšná registrace na proudzivota.cz', false)
+    await this.send(
+      'welcome',
+      'Úspěšná registrace na proudzivota.cz',
+      false,
+      false
+    )
   }
 
   async sendWelcomeGoogle() {
-    await this.send('welcomeGoogle', 'Vaše registrace na proudzivota.cz', false)
+    await this.send(
+      'welcomeGoogle',
+      'Vaše registrace na proudzivota.cz',
+      false,
+      false
+    )
   }
 
   // contact Form
   async sendContactForm() {
-    await this.send('emailForm', 'Kontakt Eshop', false)
+    await this.send('emailForm', 'Kontakt Eshop', false, false)
   }
 
   // new review notification
 
   async sendReviewNotification() {
-    await this.send('reviewForm', 'Nová recenze na Eshopu', true)
+    await this.send('reviewForm', 'Nová recenze na Eshopu', true, false)
   }
 }
 
