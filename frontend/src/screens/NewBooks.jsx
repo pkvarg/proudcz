@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Image } from 'react-bootstrap'
 import { listProductDetails } from '../actions/productActions'
 import { listAllProducts } from '../actions/productActions'
+import Product from '../components/Product'
+import { Row, Col } from 'react-bootstrap'
 
 const NewBooks = () => {
   const params = useParams()
@@ -34,41 +36,36 @@ const NewBooks = () => {
       </Link>
       <div>
         <h1>Knihy {year}</h1>
-        <div className='prods-by-year-container'>
+        <Row>
           {byYear.map((product) => (
-            <div className='prods-by-year'>
-              {product.year === year && (
-                <>
-                  <Link to={`/product/${product._id}`}>
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      className='prod-img-year-width'
-                    ></Image>
-                  </Link>
-                  <h1 className='prods-name'>{product.name}</h1>
-                  <h4 className='prods-desc'>Jazyk: {product.language}</h4>
-                  <h4 className='prods-desc'>{product.binding}</h4>
-                  <h4 className='prods-desc'>{product.pages} stran</h4>
-                  <h4 className='prods-desc'>{product.isbn}</h4>
-                  {product.language === 'SK' ? (
-                    <Image
-                      src='/images/flag_sk40px_0.png'
-                      alt={product.name}
-                      fluid
-                    ></Image>
-                  ) : (
-                    <Image
-                      src='/images/flag_cz40px_2_27.png'
-                      alt={product.name}
-                      fluid
-                    ></Image>
-                  )}
-                </>
-              )}
-            </div>
+            <Col
+              className='
+            align-items-stretch d-flex no-mobile
+            '
+              key={product._id}
+              sm={12}
+              md={6}
+              lg={4}
+              xl={3}
+            >
+              <Product product={product} />
+            </Col>
           ))}
-        </div>
+          {byYear.map((product) => (
+            <Col
+              className='
+            align-items-stretch mobile-only
+            '
+              key={product._id}
+              sm={12}
+              md={6}
+              lg={4}
+              xl={3}
+            >
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
       </div>
     </>
   )
