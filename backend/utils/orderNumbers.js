@@ -1,60 +1,44 @@
 import Order from '../models/orderModel.js'
 
 export const getOrderNumber = async () => {
-  const thisYearsOrders = []
-  let cancelledOrderNumber = 0
-  let countOfReusedOrderNumbers = 0
-  let date = Date.now()
-  let thisYear = new Date(date).getFullYear()
-  let orderNumber = 0
-  let orderString = ''
+  const currentYear = new Date().getFullYear()
 
-  function addLeadingZeros(num, totalLength) {
-    return String(num).padStart(totalLength, '0')
+  // Find the first unused cancelled order number for this year
+  const cancelledOrder = await Order.findOne({
+    createdAt: { $gte: new Date(currentYear, 0, 1) },
+    isCancelled: true,
+    isCancelledOrderNumberUsed: false,
+  }).sort('orderNumber')
+
+  if (cancelledOrder) {
+    cancelledOrder.isCancelledOrderNumberUsed = true
+    await cancelledOrder.save()
+    return cancelledOrder.orderNumber.toString() // Return as is, without 'W'
   }
 
-  const allOrders = await Order.find({}).populate('user', 'id name')
+  // Find the highest order number for this year
+  const highestOrder = await Order.findOne({
+    createdAt: { $gte: new Date(currentYear, 0, 1) },
+  }).sort('-orderNumber')
 
-  // all orders count for this year + filter orders
-  allOrders.map((order) => {
-    const orderCreateAt = order.createdAt
-    const orderDate = new Date(orderCreateAt)
-    const orderYear = orderDate.getFullYear()
-    if (orderYear === thisYear) {
-      thisYearsOrders.push(order)
-    }
-  })
-
-  for (const order of thisYearsOrders) {
-    if (order.isCancelled && !order.isCancelledOrderNumberUsed) {
-      cancelledOrderNumber = order.orderNumber
-      order.isCancelledOrderNumberUsed = true
-      await order.save()
-      // break to do this only once
-      break
-    }
-  }
-
-  if (cancelledOrderNumber > 0) {
-    orderNumber = cancelledOrderNumber
+  let newOrderNumber
+  if (highestOrder) {
+    // Extract the numeric part (remove year prefix and 'W' suffix)
+    const highestNumber = parseInt(
+      highestOrder.orderNumber.toString().slice(4, -1)
+    )
+    newOrderNumber = currentYear * 10000 + highestNumber + 1
   } else {
-    for (const order of thisYearsOrders) {
-      if (order.isCancelledOrderNumberUsed) {
-        countOfReusedOrderNumbers++
-      }
-    }
-    let thisYearsOrdersCount = thisYearsOrders.length
-    if (countOfReusedOrderNumbers > 0) {
-      thisYearsOrdersCount -= countOfReusedOrderNumbers
-    }
-    thisYearsOrdersCount++
-    thisYearsOrdersCount.toString()
-    let addedZeros = addLeadingZeros(thisYearsOrdersCount, 4)
-    orderNumber = thisYear + addedZeros
-    orderString = orderNumber.toString() + 'W'
+    newOrderNumber = currentYear * 10000 + 1
   }
 
-  console.log('orderNo', orderNumber)
+  return formatOrderNumber(newOrderNumber)
+}
 
-  return orderString
+function formatOrderNumber(number) {
+  return `${number}W`
+}
+
+function addLeadingZeros(num, totalLength) {
+  return String(num).padStart(totalLength, '0')
 }
