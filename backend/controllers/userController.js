@@ -28,6 +28,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       isAssistant: user.isAssistant,
+      isSubscribed: user.isSubscribed,
       favorites: user.favorites,
       token: generateToken(user._id),
     })
@@ -113,6 +114,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       isAssistant: user.isAssistant,
+      isSubscribed: user.isSubscribed,
     })
   } else {
     res.status(404)
@@ -129,6 +131,13 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
+    user.isSubscribed = req.body.isSubscribed
+
+    if (req.body.isSubscribed === false) {
+      user.isUnsubscribed = true
+    } else if (req.body.isSubscribed === true) {
+      user.isUnsubscribed = false
+    }
     if (req.body.password) {
       user.password = req.body.password
     }
@@ -139,6 +148,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
       isAssistant: user.isAssistant,
+      isSubscribed: user.isSubscribed,
 
       token: generateToken(updatedUser._id),
     })
@@ -211,6 +221,12 @@ const updateUser = asyncHandler(async (req, res) => {
     user.isAdmin = req.body.isAdmin
     user.isAssistant = req.body.isAssistant
     user.isRegistered = req.body.isRegistered
+    user.isSubscribed = req.body.isSubscribed
+    if (req.body.isSubscribed === false) {
+      user.isUnsubscribed = true
+    } else if (req.body.isSubscribed === true) {
+      user.isUnsubscribed = false
+    }
 
     const updatedUser = await user.save()
     console.log('UU:', updatedUser)
@@ -223,6 +239,7 @@ const updateUser = asyncHandler(async (req, res) => {
       isAdmin: updatedUser.isAdmin,
       isAssistant: updatedUser.isAssistant,
       isRegistered: updatedUser.isRegistered,
+      isSubscribed: updatedUser.isSubscribed,
     })
   } else {
     res.status(404)

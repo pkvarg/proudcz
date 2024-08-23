@@ -75,6 +75,9 @@ const Header = () => {
                 <LinkContainer to='/admin/banner'>
                   <NavDropdown.Item>Bannery</NavDropdown.Item>
                 </LinkContainer>
+                <LinkContainer to='/admin/subscribers'>
+                  <NavDropdown.Item>Odběratelé novinek</NavDropdown.Item>
+                </LinkContainer>
               </NavDropdown>
             )}
             {userInfo && userInfo.isAssistant && (
@@ -155,6 +158,9 @@ const Header = () => {
                       </LinkContainer>
                       <LinkContainer to='/admin/banner'>
                         <NavDropdown.Item>Bannery</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to='/admin/subscribers'>
+                        <NavDropdown.Item>Odběratelé novinek</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}

@@ -18,6 +18,7 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState(null)
   const [messageSuccess, setMessageSuccess] = useState(null)
+  const [isSubscribed, setIsSubscribed] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -30,6 +31,9 @@ const ProfileScreen = () => {
 
   // const location = useLocation()
   // const { search } = useLocation()
+
+  console.log('userProfileDetails', userDetails)
+  console.log('userLogin', userInfo)
 
   useLayoutEffect(() => {
     window.scrollTo(0, 200)
@@ -47,8 +51,9 @@ const ProfileScreen = () => {
         dispatch(getUserDetails('profile'))
         dispatch(listMyOrders())
       } else {
-        setName(user.name)
-        setEmail(user.email)
+        setName(userInfo.name)
+        setEmail(userInfo.email)
+        setIsSubscribed(userInfo.isSubscribed)
         // G
         dispatch(listMyOrders())
       }
@@ -58,10 +63,18 @@ const ProfileScreen = () => {
   const submitHandler = (e) => {
     e.preventDefault()
     if (password !== confirmPassword) {
-      setMessage('Heslá nesúhlasia')
+      setMessage('Hesla nesouhlasí')
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }))
-      setMessageSuccess('Heslo úspešne zmenené')
+      dispatch(
+        updateUserProfile({
+          id: user._id,
+          name,
+          email,
+          password,
+          isSubscribed,
+        })
+      )
+      setMessageSuccess('Data úspěšně změněna')
     }
   }
 
@@ -122,6 +135,18 @@ const ProfileScreen = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></Form.Control>
+            </Form.Group>
+            <Form.Group className='billing-flex' controlId='newsletter'>
+              <Form.Check
+                type='checkbox'
+                name='newsletter'
+                checked={isSubscribed}
+                onChange={(e) => setIsSubscribed((prev) => !prev)}
+              />
+              <Form.Label>
+                Přejete si odebírat informace o novinkách a akcích (cca 2x
+                ročně)?
+              </Form.Label>
             </Form.Group>
             <Button type='submit' className='my-5 btn-blue rounded'>
               Upravit profil

@@ -22,6 +22,7 @@ router.post('/currentUser', async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       isAssistant: user.isAssistant,
+      isSubscribed: user.isSubscribed,
       favorites: user.favorites,
       token: generateToken(user._id),
     })

@@ -46,6 +46,7 @@ import Favorites from './screens/Favorites'
 import OrderStripeSuccess from './screens/OrderStripeSuccess'
 import OrderStripeFail from './screens/OrderStripeFail'
 import CompleteRegistration from './screens/CompleteRegistration'
+import Subscribers from './screens/Subscribers'
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { firebaseConfiguration } from './firebaseConfig'
@@ -155,6 +156,7 @@ const App = () => {
               <Route path='/safety-privacy' element={<SafetyPrivacy />} />
               <Route path='/trade-rules' element={<TradeRules />} />
               <Route path='/admin/reviews' element={<Reviews />} />
+              <Route path='/admin/subscribers' element={<Subscribers />} />
               <Route path='/favorites' element={<Favorites />} />
               <Route
                 path='/registerLink/:email/:token'

@@ -37,6 +37,14 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    isSubscribed: {
+      type: Boolean,
+      default: false,
+    },
+    isUnsubscribed: {
+      type: Boolean,
+      default: false,
+    },
     // favorites: [favoritesSchema],
 
     googleId: {

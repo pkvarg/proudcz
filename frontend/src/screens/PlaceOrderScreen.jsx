@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
 import { removeFromAll } from '../actions/cartActions'
+import { updateUserProfile } from '../actions/userActions'
 
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch()
@@ -85,6 +86,12 @@ const PlaceOrderScreen = () => {
           discounts: prodsDiscounts,
         })
       )
+      dispatch(
+        updateUserProfile({
+          id: userInfo._id,
+          isSubscribed: newsletterChecked,
+        })
+      )
     } else {
       setMessage('Potvrďte souhlas níže')
     }
@@ -98,6 +105,11 @@ const PlaceOrderScreen = () => {
   const [tradeRulesOrderChecked, setTradeRulesOrderChecked] = useState(false)
   const handleTradeRulesOrder = () => {
     setTradeRulesOrderChecked(!tradeRulesOrderChecked)
+  }
+
+  const [newsletterChecked, setNewsletterChecked] = useState(true)
+  const handleNewsletter = () => {
+    setNewsletterChecked((prev) => !prev)
   }
 
   return (
@@ -249,6 +261,18 @@ const PlaceOrderScreen = () => {
                     <a href='/trade-rules' target='_blank'>
                       Souhlasím s obchodními podmínkami
                     </a>
+                  </p>
+                </Form.Group>
+                <Form.Group className='billing-flex'>
+                  <Form.Check
+                    type='checkbox'
+                    name='newsletterCheck'
+                    defaultChecked={newsletterChecked}
+                    onChange={handleNewsletter}
+                  />
+                  <p className='agree-newsletter'>
+                    Souhlasím se zasíláním mailů o novinkách a akcích (max. 2x
+                    ročně)
                   </p>
                 </Form.Group>
               </ListGroup.Item>

@@ -738,6 +738,11 @@ sup {
   transform: translateY(55%);
 }
 
+.agree-newsletter {
+  font-size: 17px;
+  transform: translateY(25%);
+}
+
 /* GIVE 2% */
 .give2-physical li {
   margin: 10px 0;
