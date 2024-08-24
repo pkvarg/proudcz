@@ -4,7 +4,7 @@ import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listUsers, deleteUser } from '../actions/userActions'
+import { listUsers, deleteUser, getUserDetails } from '../actions/userActions'
 import { useNavigate } from 'react-router-dom'
 import * as Icon from 'react-bootstrap-icons'
 import axios from 'axios'
@@ -42,6 +42,7 @@ const UserListScreen = () => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listUsers())
       getVisitors()
+      dispatch(getUserDetails(userInfo._id))
     } else {
       navigate('/login')
     }

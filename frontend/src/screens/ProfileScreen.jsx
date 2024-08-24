@@ -50,10 +50,12 @@ const ProfileScreen = () => {
         dispatch({ type: USER_UPDATE_PROFILE_RESET })
         dispatch(getUserDetails('profile'))
         dispatch(listMyOrders())
+      } else if (user._id !== userInfo._id) {
+        dispatch(getUserDetails(userInfo._id))
       } else {
-        setName(userInfo.name)
-        setEmail(userInfo.email)
-        setIsSubscribed(userInfo.isSubscribed)
+        setName(user.name)
+        setEmail(user.email)
+        setIsSubscribed(user.isSubscribed)
         // G
         dispatch(listMyOrders())
       }
