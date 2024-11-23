@@ -311,22 +311,22 @@ const ProductEditScreen = () => {
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item
-                    value={'božia-ekonómia'}
-                    onClick={() => setCategory('božia-ekonómia')}
+                    value={'Boží ekonomie'}
+                    onClick={() => setCategory('Boží-ekonomie')}
                   >
-                    Božia ekonómia
+                    Boží ekonomie
                   </Dropdown.Item>
                   <Dropdown.Item
-                    value={'brožúry'}
-                    onClick={() => setCategory('brožúry')}
+                    value={'brožury'}
+                    onClick={() => setCategory('brožury')}
                   >
-                    Brožúry
+                    Brožury
                   </Dropdown.Item>
                   <Dropdown.Item
-                    value={'cirkev'}
-                    onClick={() => setCategory('cirkev')}
+                    value={'církev'}
+                    onClick={() => setCategory('církev')}
                   >
-                    Cirkev
+                    Církev
                   </Dropdown.Item>
                   <Dropdown.Item
                     value={'duch'}
@@ -335,23 +335,23 @@ const ProductEditScreen = () => {
                     Duch
                   </Dropdown.Item>
                   <Dropdown.Item
-                    value={'evanjelium'}
-                    onClick={() => setCategory('evanjelium')}
+                    value={'evangelium'}
+                    onClick={() => setCategory('evangelium')}
                   >
-                    Evanjelium
+                    Evangelium
                   </Dropdown.Item>
                   <Dropdown.Item
-                    value={'kresťanská-prax'}
-                    onClick={() => setCategory('kresťanská-prax')}
+                    value={'křesťanská-praxe'}
+                    onClick={() => setCategory('křesťanská-praxe')}
                   >
-                    Kresťanská prax
+                    Křesťanská praxe
                   </Dropdown.Item>
 
                   <Dropdown.Item
-                    value={'kresťanská-služba'}
-                    onClick={() => setCategory('kresťanská-služba')}
+                    value={'křesťanská-služba'}
+                    onClick={() => setCategory('křesťanská-služba')}
                   >
-                    Kresťanská služba
+                    Křesťanská služba
                   </Dropdown.Item>
 
                   <Dropdown.Item
@@ -373,16 +373,16 @@ const ProductEditScreen = () => {
                     Mládež
                   </Dropdown.Item>
                   <Dropdown.Item
-                    value={'štúdium-a-výklad-biblie'}
-                    onClick={() => setCategory('štúdium-a-výklad-biblie')}
+                    value={'studium-a-výklad-bible'}
+                    onClick={() => setCategory('studium-a-výklad-bible')}
                   >
-                    Štúdium a výklad biblie
+                    Studium a výklad Bible
                   </Dropdown.Item>
                   <Dropdown.Item
-                    value={'trojjediný-boh'}
-                    onClick={() => setCategory('trojjediný-boh')}
+                    value={'Trojjediný-Bůh'}
+                    onClick={() => setCategory('Trojjediný-Bůh')}
                   >
-                    Trojjediný Boh
+                    Trojjediný Bůh
                   </Dropdown.Item>
                   <Dropdown.Item
                     value={'život'}

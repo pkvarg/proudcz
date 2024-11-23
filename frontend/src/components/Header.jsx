@@ -255,28 +255,28 @@ const Header = () => {
               <LinkContainer to='eshop/abecedný-zoznam-kníh'>
                 <NavDropdown.Item>Abecední seznam knih</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='eshop/božia-ekonómia'>
+              <LinkContainer to='eshop/Boží-ekonomie'>
                 <NavDropdown.Item>Boží ekonomie</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='eshop/brožúry'>
+              <LinkContainer to='eshop/brožury'>
                 <NavDropdown.Item>Brožury</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='eshop/cirkev'>
+              <LinkContainer to='eshop/církev'>
                 <NavDropdown.Item>Církev</NavDropdown.Item>
               </LinkContainer>
               <LinkContainer to='eshop/duch'>
                 <NavDropdown.Item>Duch</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='eshop/evanjelium'>
+              <LinkContainer to='eshop/evangelium'>
                 <NavDropdown.Item>Evangelium</NavDropdown.Item>
               </LinkContainer>
               <LinkContainer to='eshop/kristus'>
                 <NavDropdown.Item>Kristus</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='eshop/kresťanská-prax'>
+              <LinkContainer to='eshop/křesťanská-praxe'>
                 <NavDropdown.Item>Křesťanská praxe</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='eshop/kresťanská-služba'>
+              <LinkContainer to='eshop/křesťanská-služba'>
                 <NavDropdown.Item>Křesťanská služba</NavDropdown.Item>
               </LinkContainer>
               <LinkContainer to='eshop/letáky'>
@@ -285,10 +285,10 @@ const Header = () => {
               <LinkContainer to='eshop/mládež'>
                 <NavDropdown.Item>Mládež</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='eshop/štúdium-a-výklad-biblie'>
+              <LinkContainer to='eshop/studium-a-výklad-bible'>
                 <NavDropdown.Item>Studium a výklad Bible</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='eshop/trojjediný-boh'>
+              <LinkContainer to='eshop/Trojjediný-Bůh'>
                 <NavDropdown.Item>Trojjediný Bůh</NavDropdown.Item>
               </LinkContainer>
               <LinkContainer to='eshop/život'>

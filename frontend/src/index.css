@@ -873,8 +873,12 @@ i.fa-solid.fa-download:hover {
   padding-top: 0.45%;
   border-bottom: 1px solid #c8c5bf;
   margin-bottom: 0;
-  text-transform: capitalize;
+
   letter-spacing: normal;
+}
+
+.eshop-abc-frame::first-letter {
+  text-transform: capitalize;
 }
 
 .eshop-abc-product {

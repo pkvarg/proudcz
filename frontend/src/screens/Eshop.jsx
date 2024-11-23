@@ -78,9 +78,9 @@ const Eshop = () => {
                 ))}
           </Row> */}
           <Row className='eshop-abc'>
-            <h4 className='eshop-abc-frame'>
+            <p className='eshop-abc-frame'>
               {category.replace('-', ' ').replace('-', ' ').replace('-', ' ')}
-            </h4>
+            </p>
             {category !== 'abecedný-zoznam-kníh'
               ? products
                   .filter(
