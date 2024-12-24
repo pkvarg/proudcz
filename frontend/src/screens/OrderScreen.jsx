@@ -76,10 +76,7 @@ const OrderScreen = () => {
 
   if (!loading) {
     // Calculate Prices
-    order.itemsPrice = order.orderItems.reduce(
-      (acc, item) => acc + item.price * item.qty,
-      0
-    )
+    order.itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   }
 
   let shippingPrice = 75
@@ -93,13 +90,7 @@ const OrderScreen = () => {
       dispatch({ type: ORDER_PAY_RESET })
       dispatch(getOrderDetails(orderId))
     }
-    if (
-      !order ||
-      successPay ||
-      successDeliver ||
-      successCancell ||
-      order._id !== orderId
-    ) {
+    if (!order || successPay || successDeliver || successCancell || order._id !== orderId) {
       //     dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_DELIVER_RESET })
       dispatch({ type: ORDER_CANCELL_RESET })
@@ -175,11 +166,7 @@ const OrderScreen = () => {
 
     if (order._id) {
       try {
-        const { data } = await axios.put(
-          `/api/orders/${order._id}/init-payment`,
-          {},
-          configBearer
-        )
+        const { data } = await axios.put(`/api/orders/${order._id}/init-payment`, {}, configBearer)
 
         // setInitPaymentId(data.initPaymentId);
 
@@ -203,7 +190,7 @@ const OrderScreen = () => {
         const response = await axios.post(
           '/api/create-stripe-checkout-session',
           { requestBody },
-          config
+          config,
         )
 
         //console.log('resp', response.data.id)
@@ -219,16 +206,18 @@ const OrderScreen = () => {
     }
   }
 
+  const abroad = order?.shippingAddress.country !== 'Česká republika'
+
   return loading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error}</Message>
+    <Message variant="danger">{error}</Message>
   ) : (
     <>
       <h1>Objednávka {order.orderNumber}</h1>
       <Row>
         <Col md={8}>
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>Doručovací adresa</h2>
               <p>
@@ -241,8 +230,8 @@ const OrderScreen = () => {
               <p>
                 <strong>Adresa: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city},{' '}
-                {order.shippingAddress.postalCode},{' '}
-                {order.shippingAddress.country}, {order.shippingAddress.phone}
+                {order.shippingAddress.postalCode}, {order.shippingAddress.country},{' '}
+                {order.shippingAddress.phone}
               </p>
               {/* {cart.shippingAddress.billingName && (
                 <div>
@@ -270,11 +259,9 @@ const OrderScreen = () => {
                 <div>
                   <h4>Fakturační údaje</h4>
                   <p>
-                    {order.shippingAddress.billingName},{' '}
-                    {order.shippingAddress.billingAddress},{' '}
-                    {order.shippingAddress.billingPostalCode},{' '}
-                    {order.shippingAddress.billingCity},{' '}
-                    {order.shippingAddress.billingCountry}
+                    {order.shippingAddress.billingName}, {order.shippingAddress.billingAddress},{' '}
+                    {order.shippingAddress.billingPostalCode}, {order.shippingAddress.billingCity},{' '}
+                    {order.shippingAddress.billingCountry}{' '}
                     {order.shippingAddress.billingICO && (
                       <span>
                         IČO:
@@ -284,22 +271,16 @@ const OrderScreen = () => {
                   </p>
                 </div>
               )}
-              {order.shippingAddress.note && (
-                <h5>Poznámka: {order.shippingAddress.note}</h5>
-              )}
+              {order.shippingAddress.note && <h5>Poznámka: {order.shippingAddress.note}</h5>}
 
               <h2>Stav objednávky</h2>
 
               {order.isDelivered ? (
-                <Message variant='success'>
-                  Odesláno {order.deliveredAt}
-                </Message>
+                <Message variant="success">Odesláno {order.deliveredAt}</Message>
               ) : (
-                <Message variant='danger'>Neodesláno</Message>
+                <Message variant="danger">Neodesláno</Message>
               )}
-              {order.isCancelled && (
-                <Message variant='danger'>Zrušená!</Message>
-              )}
+              {order.isCancelled && <Message variant="danger">Zrušená!</Message>}
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -308,11 +289,9 @@ const OrderScreen = () => {
                 <strong>Způsob: </strong>
                 {order.paymentMethod}
               </p>
-              {order.isPaid && (
-                <Message variant='success'>Zaplaceno {order.paidAt}</Message>
-              )}
+              {order.isPaid && <Message variant="success">Zaplaceno {order.paidAt}</Message>}
               {order.paymentMethod !== 'Stripe' && !order.isPaid && (
-                <Message variant='danger'>
+                <Message variant="danger">
                   Nezaplaceno
                   {/* {userInfo.isAdmin && (
                     <Button
@@ -326,15 +305,11 @@ const OrderScreen = () => {
                 </Message>
               )}
 
-              {paidByStripe && (
-                <Message variant='success'>Zaplaceno Stripe</Message>
-              )}
-              {order.paymentMethod === 'Stripe' &&
-                !paidByStripe &&
-                !order.isPaid && (
-                  <Message variant='danger'>
-                    Nezaplaceno
-                    {/* {userInfo.isAdmin && (
+              {paidByStripe && <Message variant="success">Zaplaceno Stripe</Message>}
+              {order.paymentMethod === 'Stripe' && !paidByStripe && !order.isPaid && (
+                <Message variant="danger">
+                  Nezaplaceno
+                  {/* {userInfo.isAdmin && (
                     <Button
                       variant='danger'
                       className='w-100'
@@ -343,8 +318,8 @@ const OrderScreen = () => {
                       ADMIN: Zmazať objednávku
                     </Button>
                   )} */}
-                  </Message>
-                )}
+                </Message>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -352,33 +327,25 @@ const OrderScreen = () => {
               {order.orderItems.length === 0 ? (
                 <Message>Objednávka neobsahuje žádné produkty</Message>
               ) : (
-                <ListGroup variant='flush'>
+                <ListGroup variant="flush">
                   {order.orderItems.map((item, index) => (
                     <ListGroup.Item key={index}>
-                      <Row className='items-center'>
+                      <Row className="items-center">
                         <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
+                          <Image src={item.image} alt={item.name} fluid rounded />
                         </Col>
                         <Col>
-                          <Link
-                            className='no-underline'
-                            to={`/product/${item.product}`}
-                          >
+                          <Link className="no-underline" to={`/product/${item.product}`}>
                             {item.name}
                           </Link>
                           {order.discounts[index].discount > 0 && (
-                            <h5 className='place-order-discount'>
+                            <h5 className="place-order-discount">
                               Sleva
                               {order.discounts[index].discount}%
                             </h5>
                           )}
                         </Col>
-                        <Col md={4} className='place-order-calc'>
+                        <Col md={4} className="place-order-calc">
                           {item.qty} x {''}
                           {item.price} Kč = {item.qty * item.price} Kč
                         </Col>
@@ -392,35 +359,41 @@ const OrderScreen = () => {
         </Col>
         <Col md={4}>
           <Card>
-            <ListGroup variant='flush'>
+            <ListGroup variant="flush">
               <ListGroup.Item>
                 <h2>Souhrn objednávky</h2>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Row className=''>
-                  <div className='cart-box-right'>
+                <Row className="">
+                  <div className="cart-box-right">
                     Produkty:
-                    <div className='ml-auto'>{order.itemsPrice} Kč</div>
-                  </div>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <div className='cart-box-right'>
-                    Poštovné a balné:
-                    <div className='ml-auto'> {order.shippingPrice} Kč</div>
+                    <div className="ml-auto">{order.itemsPrice} Kč</div>
                   </div>
                 </Row>
               </ListGroup.Item>
 
-              <ListGroup.Item>
-                <Row>
-                  <div className='cart-box-right'>
-                    Celkom:
-                    <div className='ml-auto'> {order.totalPrice} Kč</div>
-                  </div>
-                </Row>
-              </ListGroup.Item>
+              {!abroad && (
+                <>
+                  <ListGroup.Item>
+                    <Row>
+                      <div className="cart-box-right">
+                        Poštovné a balné:
+                        <div className="ml-auto"> {order.shippingPrice} Kč</div>
+                      </div>
+                    </Row>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    <Row>
+                      <div className="cart-box-right">
+                        Celkom:
+                        <div className="ml-auto"> {order.totalPrice} Kč</div>
+                      </div>
+                    </Row>
+                  </ListGroup.Item>
+                </>
+              )}
+
               {/* <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
@@ -429,10 +402,7 @@ const OrderScreen = () => {
               </ListGroup.Item> */}
               {!order.isPaid && order.paymentMethod === 'Stripe' && (
                 <ListGroupItem>
-                  <Button
-                    className='btn w-100 btn-success'
-                    onClick={() => makePayment()}
-                  >
+                  <Button className="btn w-100 btn-success" onClick={() => makePayment()}>
                     Platba Stripe
                   </Button>
                 </ListGroupItem>
@@ -441,34 +411,24 @@ const OrderScreen = () => {
               {loadingDeliver && <Loader />}
               {userInfo && userInfo.isAdmin && !order.isDelivered && (
                 <ListGroup.Item>
-                  <Button
-                    typ='button'
-                    className='btn w-100 btn-red'
-                    onClick={deliverHandler}
-                  >
+                  <Button typ="button" className="btn w-100 btn-red" onClick={deliverHandler}>
                     Označit jako odeslané
                   </Button>
                 </ListGroup.Item>
               )}
-              {userInfo &&
-                userInfo.isAdmin &&
-                !order.isCancelled &&
-                !order.isDelivered && (
-                  <ListGroup.Item>
-                    <Button
-                      typ='button'
-                      className='btn w-100 btn-danger btn-red'
-                      onClick={cancellHandler}
-                    >
-                      Zrušit objednávku
-                    </Button>
-                  </ListGroup.Item>
-                )}
+              {userInfo && userInfo.isAdmin && !order.isCancelled && !order.isDelivered && (
+                <ListGroup.Item>
+                  <Button
+                    typ="button"
+                    className="btn w-100 btn-danger btn-red"
+                    onClick={cancellHandler}
+                  >
+                    Zrušit objednávku
+                  </Button>
+                </ListGroup.Item>
+              )}
               <ListGroup.Item>
-                <Button
-                  className='w-100 btn-blue'
-                  onClick={() => newOrderHandler()}
-                >
+                <Button className="w-100 btn-blue" onClick={() => newOrderHandler()}>
                   Vytvořit novoú objednávku
                 </Button>
               </ListGroup.Item>

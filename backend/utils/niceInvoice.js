@@ -4,7 +4,7 @@ import path from 'path'
 const __dirname = path.resolve()
 
 const niceInvoice = (invoice, path) => {
-  console.log('invoice:', invoice)
+  //console.log('invoice:', invoice)
 
   let doc = new PDFDocument({ size: 'A4', margin: 40 })
 
@@ -71,15 +71,11 @@ let customerInformation = (doc, invoice) => {
     .font('Cardo')
     .text(invoice.shipping.name, 320, customerInformationTop + 15)
 
-    .text(
-      invoice.shipping.address + ', ' + invoice.shipping.city,
-      320,
-      customerInformationTop + 30
-    )
+    .text(invoice.shipping.address + ', ' + invoice.shipping.city, 320, customerInformationTop + 30)
     .text(
       invoice.shipping.postalCode + ', ' + invoice.shipping.country,
       320,
-      customerInformationTop + 45
+      customerInformationTop + 45,
     )
 
     .moveDown()
@@ -96,21 +92,15 @@ let customerInformation = (doc, invoice) => {
       .text(
         invoice.shipping.address + ', ' + invoice.shipping.city,
         50,
-        customerInformationTop + 90
+        customerInformationTop + 90,
       )
       .text(
         invoice.shipping.postalCode + ', ' + invoice.shipping.country,
         50,
-        customerInformationTop + 102.5
+        customerInformationTop + 102.5,
       )
     if (invoice.note) {
-      doc
-        .fontSize(10)
-        .text(
-          'Poznámka:' + ' ' + invoice.note,
-          50,
-          customerInformationTop + 117.5
-        )
+      doc.fontSize(10).text('Poznámka:' + ' ' + invoice.note, 50, customerInformationTop + 117.5)
     }
     doc.moveDown()
   } else {
@@ -122,11 +112,7 @@ let customerInformation = (doc, invoice) => {
       .fontSize(12)
       .text(invoice.billing.name, 50, customerInformationTop + 77.5)
       .font('Cardo')
-      .text(
-        invoice.billing.address + ', ' + invoice.billing.city,
-        50,
-        customerInformationTop + 90
-      )
+      .text(invoice.billing.address + ', ' + invoice.billing.city, 50, customerInformationTop + 90)
       .text(
         invoice.billing.postalCode +
           ', ' +
@@ -135,16 +121,10 @@ let customerInformation = (doc, invoice) => {
           'IČO:' +
           +invoice.billing.ICO,
         50,
-        customerInformationTop + 102.5
+        customerInformationTop + 102.5,
       )
     if (invoice.note) {
-      doc
-        .fontSize(10)
-        .text(
-          'Poznámka:' + ' ' + invoice.note,
-          50,
-          customerInformationTop + 117.5
-        )
+      doc.fontSize(10).text('Poznámka:' + ' ' + invoice.note, 50, customerInformationTop + 117.5)
     }
     doc.moveDown()
   }
@@ -185,7 +165,7 @@ let invoiceTable = (doc, invoice) => {
       discount,
       formatCurrency(item.price, currencySymbol),
       item.qty,
-      formatCurrency(total, currencySymbol)
+      formatCurrency(total, currencySymbol),
     ),
       generateHr(doc, position + 15)
   }
@@ -200,26 +180,16 @@ let invoiceTable = (doc, invoice) => {
     doc,
     productsTotalPosition,
     'Produkty',
-    formatCurrency(productsTotalPrice, currencySymbol)
+    formatCurrency(productsTotalPrice, currencySymbol),
   )
 
   const shippingPosition = productsTotalPosition + 10
   doc.font('Cardo-Bold')
-  totalTable(
-    doc,
-    shippingPosition,
-    'Poštovné',
-    formatCurrency(shippingPrice, currencySymbol)
-  )
+  totalTable(doc, shippingPosition, 'Poštovné', formatCurrency(shippingPrice, currencySymbol))
 
   const paidToDatePosition = shippingPosition + 10
   doc.font('Cardo-Bold')
-  totalTable(
-    doc,
-    paidToDatePosition,
-    'Celkem',
-    formatCurrency(totalPrice, currencySymbol)
-  )
+  totalTable(doc, paidToDatePosition, 'Celkem', formatCurrency(totalPrice, currencySymbol))
 }
 
 let footer = (doc, invoice) => {

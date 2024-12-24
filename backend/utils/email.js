@@ -26,6 +26,8 @@ class Email {
       paymentMethod = 'Zaplatíte při převzetí'
     } else if (user.paymentMethod === 'PayPal alebo karta') {
       paymentMethod = 'PayPal alebo platba kartou'
+    } else if (user.paymentMethod === 'Platba bankovním převodem předem') {
+      paymentMethod = 'Platba bankovním převodem předem'
     } else {
       paymentMethod = 'Stripe'
     }
@@ -43,7 +45,8 @@ class Email {
     this.comment = user.comment
     this.orderId = user._id
     this.countInStock = user.countInStock
-    this.error = user.error
+    this.error = user.erro
+    this.productsOnlyPrice = user.productsOnlyPrice
   }
 
   newTransport() {
@@ -63,37 +66,35 @@ class Email {
   async send(template, subject, adminOnly, accounting) {
     const __dirname = path.resolve()
     // 1) Render HTML based on a pug template
-    const html = pug.renderFile(
-      `${__dirname}/utils/mailTemplates/${template}.pug`,
-      {
-        user: this.user,
-        firstName: this.firstName,
-        email: this.to,
-        url: this.url,
-        subject,
-        // order
-        products: this.products,
-        address: this.addressinfo,
-        billing: this.billinginfo,
-        paidByWhom: this.paidByWhom,
-        paymentMethod: this.paymentMethod,
-        paid: this.isPaid,
-        shippingPrice: this.shippingPrice,
-        taxPrice: this.taxPrice,
-        totalPrice: this.totalPrice,
-        orderNumber: this.orderNumber,
-        file: this.file,
-        // contactForm
-        emailSubject: this.subject,
-        message: this.message,
-        note: this.note,
-        // review
-        comment: this.comment,
-        orderId: this.orderId,
-        countInStock: this.countInStock,
-        error: this.error,
-      }
-    )
+    const html = pug.renderFile(`${__dirname}/utils/mailTemplates/${template}.pug`, {
+      user: this.user,
+      firstName: this.firstName,
+      email: this.to,
+      url: this.url,
+      subject,
+      // order
+      products: this.products,
+      address: this.addressinfo,
+      billing: this.billinginfo,
+      paidByWhom: this.paidByWhom,
+      paymentMethod: this.paymentMethod,
+      paid: this.isPaid,
+      shippingPrice: this.shippingPrice,
+      taxPrice: this.taxPrice,
+      productsOnlyPrice: this.productsOnlyPrice,
+      totalPrice: this.totalPrice,
+      orderNumber: this.orderNumber,
+      file: this.file,
+      // contactForm
+      emailSubject: this.subject,
+      message: this.message,
+      note: this.note,
+      // review
+      comment: this.comment,
+      orderId: this.orderId,
+      countInStock: this.countInStock,
+      error: this.error,
+    })
 
     const admin1 = process.env.ESHOP_BCC
     const admin2 = process.env.DEV_BCC
@@ -143,30 +144,35 @@ class Email {
   }
 
   async sendOrderToEmail() {
+    await this.send('orderToEmail', `Vaše objednávka ${this.orderNumber}`, false, true)
+  }
+
+  // bank transfer NOT CZ -> no file, no postage in email
+  async sendOrderNotCzToEmail() {
+    await this.send('orderNotCzToEmail', `Vaše objednávka ${this.orderNumber}`, false, false)
+  }
+
+  // bank transfer NOT CZ ->  file, admin only
+  async sendOrderNotCzAdminOnlyToEmail() {
+    await this.send('orderNotCzAdminToEmail', `URGENT objednávka ${this.orderNumber}`, true, false)
+  }
+
+  // bank transfer CZ ->  file, info in template
+  async sendOrderCzBankTransferToEmail() {
     await this.send(
-      'orderToEmail',
+      'orderCzBankTransferToEmail',
       `Vaše objednávka ${this.orderNumber}`,
       false,
-      true
+      true,
     )
   }
 
   async sendLowStoragePiecesWarningEmail() {
-    await this.send(
-      'lowStoragePieces',
-      `Počet ${this.firstName} klesl pod 10`,
-      true,
-      false
-    )
+    await this.send('lowStoragePieces', `Počet ${this.firstName} klesl pod 10`, true, false)
   }
 
   async sendFailedPaymentNotificationgEmail() {
-    await this.send(
-      'failedPaymentNotification',
-      `Platba ${this.orderNumber} selhala`,
-      true,
-      false
-    )
+    await this.send('failedPaymentNotification', `Platba ${this.orderNumber} selhala`, true, false)
   }
 
   async sendPaymentErrorEmail() {
@@ -178,7 +184,7 @@ class Email {
       'deliveredOrderEmail',
       `Vaše objednávka ${this.orderNumber} byla odeslána`,
       false,
-      false
+      false,
     )
   }
 
@@ -191,21 +197,11 @@ class Email {
   }
 
   async sendWelcome() {
-    await this.send(
-      'welcome',
-      'Úspěšná registrace na proudzivota.cz',
-      false,
-      false
-    )
+    await this.send('welcome', 'Úspěšná registrace na proudzivota.cz', false, false)
   }
 
   async sendWelcomeGoogle() {
-    await this.send(
-      'welcomeGoogle',
-      'Vaše registrace na proudzivota.cz',
-      false,
-      false
-    )
+    await this.send('welcomeGoogle', 'Vaše registrace na proudzivota.cz', false, false)
   }
 
   // contact Form

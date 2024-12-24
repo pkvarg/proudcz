@@ -1,0 +1,29 @@
+extends baseEmail 
+
+block content 
+                            
+  h3 Ahoj Admin,
+  
+  h1 Objednávka vyžaduje úpravu faktury s poštovným do zahraničí 
+
+  h2 Klient #{user},
+  h2 Email #{email},
+  h2 #{products}
+  h2 #{firstName}
+  h2 #{address}
+  h2 Způsob platby: #{paymentMethod}
+  h2 Status: #{paid}
+  h2 Poštovné: Uvést na faktuře. 
+  h2 Produkty: #{productsOnlyPrice} Kč
+  h2 Číslo objednávky: #{orderNumber}
+  h2 Klient obdržel IBAN a VS emailem bez faktury a byl vyzván počkat na email s celkovou částkou s poštovným do zahraničí
+  h2 Poznámka: #{note}
+ 
+
+
+  
+                            
+  
+
+  
+  

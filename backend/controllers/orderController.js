@@ -92,8 +92,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
           discounts[i].discount +
           ' %'
       } else {
-        productsObject[i] =
-          ' ' + item.qty + ' x ' + item.name + ' ' + item.price + ' Kč' + '  '
+        productsObject[i] = ' ' + item.qty + ' x ' + item.name + ' ' + item.price + ' Kč' + '  '
       }
     })
 
@@ -136,6 +135,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
       ', ' +
       'IČO: ' +
       addressInfo.billingICO
+    const productsOnly = createdOrder.totalPrice - createdOrder.shippingPrice
+    productsObject.productsOnlyPrice = productsOnly
     productsObject.note = createdOrder.shippingAddress.note
 
     //invoice
@@ -181,7 +182,10 @@ const addOrderItems = asyncHandler(async (req, res) => {
       },
       items: createdOrder.orderItems,
       discounts: discounts,
-      paymentMethod: createdOrder.paymentMethod,
+      paymentMethod:
+        createdOrder.paymentMethod === 'Platba bankovním převodem předem'
+          ? 'Bankovním převodem'
+          : createdOrder.paymentMethod,
       total: createdOrder.totalPrice,
       taxPrice: createdOrder.taxPrice,
       shippingPrice: createdOrder.shippingPrice,
@@ -211,7 +215,18 @@ const addOrderItems = asyncHandler(async (req, res) => {
     niceInvoice(invoiceDetails, `invoices/${orderNumber}_${formattedDate}.pdf`)
     const fileTosend = `invoices/${orderNumber}_${formattedDate}.pdf`
 
-    await new Email(productsObject, '', fileTosend).sendOrderToEmail()
+    if (
+      createdOrder.shippingAddress.country !== 'Česká republika' &&
+      createdOrder.paymentMethod === 'Platba bankovním převodem předem'
+    ) {
+      await new Email(productsObject, '', '').sendOrderNotCzToEmail()
+      await new Email(productsObject, '', fileTosend).sendOrderNotCzAdminOnlyToEmail()
+    } else if (
+      createdOrder.shippingAddress.country === 'Česká republika' &&
+      createdOrder.paymentMethod === 'Platba bankovním převodem předem'
+    ) {
+      await new Email(productsObject, '', fileTosend).sendOrderCzBankTransferToEmail()
+    } else await new Email(productsObject, '', fileTosend).sendOrderToEmail()
 
     res.status(201).json(createdOrder)
   }
@@ -222,10 +237,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @access Private
 
 const getOrderByid = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id).populate(
-    'user',
-    'name email'
-  )
+  const order = await Order.findById(req.params.id).populate('user', 'name email')
 
   if (order) {
     res.json(order)
@@ -288,9 +300,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     updatedOrderProductsObject.email = updatedOrder.email
     updatedOrderProductsObject.name = updatedOrder.name
     updatedOrderProductsObject.paidByWhom =
-      updatedOrder.paymentResult.name.given_name +
-      ' ' +
-      updatedOrder.paymentResult.name.surname
+      updatedOrder.paymentResult.name.given_name + ' ' + updatedOrder.paymentResult.name.surname
     updatedOrderProductsObject.orderNumber = orderNumber
     updatedOrderProductsObject.taxPrice = updatedOrder.taxPrice
     updatedOrderProductsObject.totalPrice = updatedOrder.totalPrice
