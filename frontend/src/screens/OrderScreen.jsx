@@ -429,7 +429,7 @@ const OrderScreen = () => {
               )}
               <ListGroup.Item>
                 <Button className="w-100 btn-blue" onClick={() => newOrderHandler()}>
-                  Vytvořit novoú objednávku
+                  Vytvořit novou objednávku
                 </Button>
               </ListGroup.Item>
             </ListGroup>

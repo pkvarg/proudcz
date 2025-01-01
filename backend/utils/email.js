@@ -10,7 +10,7 @@ class Email {
     this.to = user.email
     this.firstName = user.name
     this.url = url
-    this.from = `Proud života eshop <${process.env.EMAIL_FROM}>`
+    this.from = `Eshop Proud života<${process.env.EMAIL_FROM}>`
     // order
     this.products = []
     this.productsCount = user.productsCount
@@ -52,7 +52,7 @@ class Email {
   newTransport() {
     return nodemailer.createTransport({
       pool: true,
-      host: 'smtp.titan.email',
+      host: 'smtp.m1.websupport.sk',
       port: 465,
       secure: true, // use TLS
       auth: {

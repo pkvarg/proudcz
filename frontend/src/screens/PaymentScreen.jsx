@@ -45,7 +45,7 @@ const PaymentScreen = () => {
             <Form.Label as="legend">Vyberte způsob platby</Form.Label>
             {shippingAddress.country === 'Česká republika' ? (
               <Col>
-                <Form.Check
+                {/* <Form.Check
                   type="radio"
                   label="Platba kartou Stripe / Google Pay"
                   id="Stripe"
@@ -53,7 +53,7 @@ const PaymentScreen = () => {
                   value="Stripe"
                   checked={method === 'Stripe'}
                   onChange={(e) => setMethod(e.target.value)}
-                ></Form.Check>
+                ></Form.Check> */}
                 <Form.Check
                   type="radio"
                   label="Platba bankovním převodem předem"
