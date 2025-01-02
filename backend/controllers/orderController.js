@@ -328,6 +328,24 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc Update order to Paid No Card (from Admin menu)
+// @desc GET /api/orders/:id/paid
+// @access Private
+const updateOrderToPaidNoCard = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id)
+
+  if (order) {
+    order.isPaid = true
+    order.paidAt = Date.now()
+
+    const updatedOrder = await order.save()
+    res.json(updatedOrder)
+  } else {
+    res.status(404)
+    throw new Error('Order not found')
+  }
+})
+
 // @desc Update order to Paid by Stripe
 // @desc GET /api/orders/:id/pay-stripe
 // @access Private
@@ -537,6 +555,7 @@ export {
   updateOrderToPaid,
   updateOrderToPaidByStripe,
   updateOrderToDelivered,
+  updateOrderToPaidNoCard,
   updateOrderToCancelled,
   getMyOrders,
   getOrders,

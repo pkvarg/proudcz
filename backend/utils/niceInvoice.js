@@ -41,6 +41,10 @@ let header = (doc, invoice) => {
   if (invoice.ico.length !== 0) {
     doc.font('Cardo-Bold').fontSize(11).text(invoice.ico, 480, 85)
   }
+  if (invoice.paymentMethod === 'Bankovním převodem') {
+    doc.font('Cardo').fontSize(11).text('IBAN: CZ12 0800 0000 0002 1943 6319', 365, 100)
+    doc.font('Cardo').fontSize(11).text('Číslo účtu: 219436319/0800', 425, 115)
+  }
 }
 
 let customerInformation = (doc, invoice) => {
@@ -64,6 +68,8 @@ let customerInformation = (doc, invoice) => {
     //
     .text('Způsob platby:', 50, customerInformationTop + 30)
     .text(invoice.paymentMethod, 175, customerInformationTop + 30)
+    .text('Variabilní symbol:', 50, customerInformationTop + 45)
+    .text(invoice.orderNumber, 175, customerInformationTop + 45)
 
   doc
     .font('Cardo-Bold')

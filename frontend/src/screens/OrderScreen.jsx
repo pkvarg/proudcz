@@ -20,6 +20,7 @@ import {
   // deleteOrder,
   deliverOrder,
   cancellOrder,
+  paidOrder,
   // createOrder,
 } from '../actions/orderActions'
 
@@ -28,6 +29,7 @@ import {
   ORDER_DELIVER_RESET,
   ORDER_CANCELL_RESET,
   ORDER_LIST_MY_RESET,
+  ORDER_PAID_RESET,
 } from '../constants/orderConstants'
 import { loadStripe } from '@stripe/stripe-js'
 
@@ -54,6 +56,9 @@ const OrderScreen = () => {
 
   const orderDeliver = useSelector((state) => state.orderDeliver)
   const { loading: loadingDeliver, success: successDeliver } = orderDeliver
+
+  const orderPaid = useSelector((state) => state.orderPaid)
+  const { loading: loadingPaid, success: successPaid } = orderPaid
 
   const orderCancell = useSelector((state) => state.orderCancell)
   const { success: successCancell } = orderCancell
@@ -90,9 +95,17 @@ const OrderScreen = () => {
       dispatch({ type: ORDER_PAY_RESET })
       dispatch(getOrderDetails(orderId))
     }
-    if (!order || successPay || successDeliver || successCancell || order._id !== orderId) {
+    if (
+      !order ||
+      successPay ||
+      successDeliver ||
+      successPaid ||
+      successCancell ||
+      order._id !== orderId
+    ) {
       //     dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_DELIVER_RESET })
+      dispatch({ type: ORDER_PAID_RESET })
       dispatch({ type: ORDER_CANCELL_RESET })
 
       dispatch(getOrderDetails(orderId))
@@ -104,6 +117,7 @@ const OrderScreen = () => {
     successPay,
     successDelete,
     successDeliver,
+    successPaid,
     successCancell,
     navigate,
     userInfo,
@@ -132,6 +146,10 @@ const OrderScreen = () => {
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order))
+  }
+
+  const paidHandler = () => {
+    dispatch(paidOrder(order))
   }
 
   const cancellHandler = () => {
@@ -413,6 +431,13 @@ const OrderScreen = () => {
                 <ListGroup.Item>
                   <Button typ="button" className="btn w-100 btn-red" onClick={deliverHandler}>
                     Označit jako odeslané
+                  </Button>
+                </ListGroup.Item>
+              )}
+              {userInfo && userInfo.isAdmin && !order.isPaid && (
+                <ListGroup.Item>
+                  <Button typ="button" className="btn w-100 btn-success" onClick={paidHandler}>
+                    Označit jako zaplacené
                   </Button>
                 </ListGroup.Item>
               )}
