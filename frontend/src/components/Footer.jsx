@@ -47,7 +47,6 @@ const CookieConsentModal = () => {
       {isModalVisible && (
         <div style={modalStyles.overlay}>
           <div style={modalStyles.modal}>
-            <h2>Cookie Consent</h2>
             <p>
               Tato stránka používá pouze analytické a pro fungování webu nezbytné cookies.
               Nepoužíváme funkční ani marketingové soubory cookies.{' '}
