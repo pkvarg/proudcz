@@ -70,7 +70,7 @@ let customerInformation = (doc, invoice) => {
   if (invoice.paymentMethod === 'Bankovním převodem') {
     doc
       .text('Variabilní symbol:', 50, customerInformationTop + 45)
-      .text(invoice.orderNumber, 175, customerInformationTop + 45)
+      .text(invoice.orderNumber.replace('W', ''), 175, customerInformationTop + 45)
   }
 
   doc

@@ -27,6 +27,9 @@ import {
   ORDER_CANCELL_REQUEST,
   ORDER_CANCELL_SUCCESS,
   ORDER_CANCELL_FAIL,
+  ORDER_CONFIRMATION_EMAIL_REQUEST,
+  ORDER_CONFIRMATION_EMAIL_FAIL,
+  ORDER_CONFIRMATION_EMAIL_SUCCESS,
   // ORDER_DELIVER_RESET,
 } from '../constants/orderConstants'
 
@@ -227,6 +230,38 @@ export const paidOrder = (order) => async (dispatch, getState) => {
       error.response && error.response.data.message ? error.response.data.message : error.message
     dispatch({
       type: ORDER_PAID_FAIL,
+      payload: message,
+    })
+  }
+}
+
+export const resendConfirmationEmailWithInvoice = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_CONFIRMATION_EMAIL_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.put(`/api/orders/${order._id}/resend-confirmation`, {}, config)
+
+    dispatch({
+      type: ORDER_CONFIRMATION_EMAIL_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message ? error.response.data.message : error.message
+    dispatch({
+      type: ORDER_CONFIRMATION_EMAIL_FAIL,
       payload: message,
     })
   }

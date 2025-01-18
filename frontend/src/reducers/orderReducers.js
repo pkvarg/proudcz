@@ -26,6 +26,10 @@ import {
   ORDER_PAID_SUCCESS,
   ORDER_PAID_FAIL,
   ORDER_PAID_RESET,
+  ORDER_CONFIRMATION_EMAIL_REQUEST,
+  ORDER_CONFIRMATION_EMAIL_SUCCESS,
+  ORDER_CONFIRMATION_EMAIL_FAIL,
+  ORDER_CONFIRMATION_EMAIL_RESET,
   ORDER_DELIVER_RESET,
   ORDER_CANCELL_REQUEST,
   ORDER_CANCELL_SUCCESS,
@@ -143,6 +147,29 @@ export const orderPaidReducer = (state = {}, action) => {
         error: action.payload,
       }
     case ORDER_PAID_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const confirmationEmailReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_CONFIRMATION_EMAIL_REQUEST:
+      return {
+        loading: true,
+      }
+    case ORDER_CONFIRMATION_EMAIL_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      }
+    case ORDER_CONFIRMATION_EMAIL_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      }
+    case ORDER_CONFIRMATION_EMAIL_RESET:
       return {}
     default:
       return state

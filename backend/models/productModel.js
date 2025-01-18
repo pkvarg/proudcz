@@ -15,7 +15,7 @@ const reviewSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 const favoritesSchema = mongoose.Schema(
@@ -24,7 +24,7 @@ const favoritesSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 const productSchema = mongoose.Schema(
@@ -88,10 +88,13 @@ const productSchema = mongoose.Schema(
     isbn: { type: String },
     year: { type: String },
     favoriteOf: [favoritesSchema],
+    searchName: {
+      type: String,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 const Product = mongoose.model('Product', productSchema)

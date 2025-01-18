@@ -14,6 +14,7 @@ import {
   deleteOrder,
   getInitPaymentId,
   failedPaymentNotification,
+  sendConfirmationEmailWithInvoice,
 } from '../controllers/orderController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
@@ -27,6 +28,7 @@ router.route('/:id/init-payment').get(protect, getInitPaymentId)
 router.route('/:id/failed-payment-notif').put(protect, failedPaymentNotification)
 router.route('/:id/deliver').put(protect, admin, updateOrderToDelivered)
 router.route('/:id/paid').put(protect, admin, updateOrderToPaidNoCard)
+router.route('/:id/resend-confirmation').put(protect, admin, sendConfirmationEmailWithInvoice)
 router.route('/:id/cancell').put(protect, admin, updateOrderToCancelled)
 
 export default router

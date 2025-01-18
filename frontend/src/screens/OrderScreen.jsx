@@ -1,27 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom'
-import {
-  Button,
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Card,
-  ListGroupItem,
-  // ListGroupItem,
-} from 'react-bootstrap'
+import { Button, Row, Col, ListGroup, Image, Card, ListGroupItem } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {
   getOrderDetails,
-  payOrder,
-  // deleteOrder,
   deliverOrder,
   cancellOrder,
   paidOrder,
-  // createOrder,
+  resendConfirmationEmailWithInvoice,
 } from '../actions/orderActions'
 
 import {
@@ -30,6 +19,7 @@ import {
   ORDER_CANCELL_RESET,
   ORDER_LIST_MY_RESET,
   ORDER_PAID_RESET,
+  ORDER_CONFIRMATION_EMAIL_RESET,
 } from '../constants/orderConstants'
 import { loadStripe } from '@stripe/stripe-js'
 
@@ -60,24 +50,17 @@ const OrderScreen = () => {
   const orderPaid = useSelector((state) => state.orderPaid)
   const { loading: loadingPaid, success: successPaid } = orderPaid
 
+  const confirmationEmail = useSelector((state) => state.confirmationEmail)
+  const { loading: loadingConfirmationEmail, success: successConfirmationEmail } = confirmationEmail
+
   const orderCancell = useSelector((state) => state.orderCancell)
   const { success: successCancell } = orderCancell
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  //const userDetails = useSelector((state) => state.userDetails)
-  // const {  user } = userDetails
-
   const orderDelete = useSelector((state) => state.orderDelete)
   const { success: successDelete } = orderDelete
-
-  // const deleteOrderHandler = (id) => {
-  //   if (window.confirm('Ste si istý?')) {
-  //     dispatch(deleteOrder(id))
-  //     navigate('/admin/orderlist')
-  //   }
-  // }
 
   if (!loading) {
     // Calculate Prices
@@ -86,7 +69,6 @@ const OrderScreen = () => {
 
   let shippingPrice = 75
 
-  //useEffect becomes shorter
   useEffect(() => {
     if (!userInfo) {
       navigate('/login')
@@ -100,12 +82,13 @@ const OrderScreen = () => {
       successPay ||
       successDeliver ||
       successPaid ||
+      successConfirmationEmail ||
       successCancell ||
       order._id !== orderId
     ) {
-      //     dispatch({ type: ORDER_PAY_RESET })
       dispatch({ type: ORDER_DELIVER_RESET })
       dispatch({ type: ORDER_PAID_RESET })
+      dispatch({ type: ORDER_CONFIRMATION_EMAIL_RESET })
       dispatch({ type: ORDER_CANCELL_RESET })
 
       dispatch(getOrderDetails(orderId))
@@ -122,27 +105,6 @@ const OrderScreen = () => {
     navigate,
     userInfo,
   ])
-
-  const createOrder = (data, actions) => {
-    return actions.order.create({
-      purchase_units: [
-        {
-          amount: { value: order.totalPrice },
-        },
-      ],
-    })
-  }
-
-  const successPaymentHandler = (data, actions) => {
-    return actions.order.capture().then((details) => {
-      dispatch(payOrder(orderId, details))
-    })
-  }
-
-  // const successPaymentHandler = (paymentResult) => {
-  //   console.log(paymentResult)
-  //   dispatch(payOrder(orderId, paymentResult))
-  // }
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order))
@@ -164,6 +126,10 @@ const OrderScreen = () => {
     document.location.href = '/'
   }
 
+  const resendConfirmationEmail = () => {
+    dispatch(resendConfirmationEmailWithInvoice(order))
+  }
+
   const ps = cart.cartItems.map((item) => ({
     name: item.name,
     qty: item.qty,
@@ -171,7 +137,6 @@ const OrderScreen = () => {
   }))
 
   // STRIPE PAYMENT
-
   const configBearer = {
     headers: {
       Authorization: `Bearer ${userInfo.token}`,
@@ -185,8 +150,6 @@ const OrderScreen = () => {
     if (order._id) {
       try {
         const { data } = await axios.put(`/api/orders/${order._id}/init-payment`, {}, configBearer)
-
-        // setInitPaymentId(data.initPaymentId);
 
         // Proceed with Stripe checkout session creation only after initPaymentId is set
         const stripe = await stripePromise
@@ -211,9 +174,6 @@ const OrderScreen = () => {
           config,
         )
 
-        //console.log('resp', response.data.id)
-
-        //window.location.href = response.data
         const session = await response.data
         await stripe.redirectToCheckout({
           sessionId: session.id,
@@ -251,27 +211,6 @@ const OrderScreen = () => {
                 {order.shippingAddress.postalCode}, {order.shippingAddress.country},{' '}
                 {order.shippingAddress.phone}
               </p>
-              {/* {cart.shippingAddress.billingName && (
-                <div>
-                  <h4>Fakturační údaje</h4>
-                  <p>
-                    {cart.shippingAddress.billingName},{' '}
-                    {cart.shippingAddress.billingAddress},{' '}
-                    {cart.shippingAddress.billingPostalCode},{' '}
-                    {cart.shippingAddress.billingCity},{' '}
-                    {cart.shippingAddress.billingCountry}
-                    {cart.shippingAddress.billingICO && (
-                      <span>
-                        IČO:
-                        {cart.shippingAddress.billingICO}
-                      </span>
-                    )}
-                  </p>
-                </div>
-              )}
-              {cart.shippingAddress.note && (
-                <h5>Poznámka: {cart.shippingAddress.note}</h5>
-              )} */}
 
               {order.shippingAddress.billingName && (
                 <div>
@@ -309,34 +248,12 @@ const OrderScreen = () => {
               </p>
               {order.isPaid && <Message variant="success">Zaplaceno {order.paidAt}</Message>}
               {order.paymentMethod !== 'Stripe' && !order.isPaid && (
-                <Message variant="danger">
-                  Nezaplaceno
-                  {/* {userInfo.isAdmin && (
-                    <Button
-                      variant='danger'
-                      className='w-100'
-                      onClick={() => deleteOrderHandler(order._id)}
-                    >
-                      ADMIN: Zmazať objednávku
-                    </Button>
-                  )} */}
-                </Message>
+                <Message variant="danger">Nezaplaceno</Message>
               )}
 
               {paidByStripe && <Message variant="success">Zaplaceno Stripe</Message>}
               {order.paymentMethod === 'Stripe' && !paidByStripe && !order.isPaid && (
-                <Message variant="danger">
-                  Nezaplaceno
-                  {/* {userInfo.isAdmin && (
-                    <Button
-                      variant='danger'
-                      className='w-100'
-                      onClick={() => deleteOrderHandler(order._id)}
-                    >
-                      ADMIN: Zmazať objednávku
-                    </Button>
-                  )} */}
-                </Message>
+                <Message variant="danger">Nezaplaceno</Message>
               )}
             </ListGroup.Item>
 
@@ -412,12 +329,6 @@ const OrderScreen = () => {
                 </>
               )}
 
-              {/* <ListGroup.Item>
-                <Row>
-                  <Col>Tax</Col>
-                  <Col>${order.taxPrice}</Col>
-                </Row>
-              </ListGroup.Item> */}
               {!order.isPaid && order.paymentMethod === 'Stripe' && (
                 <ListGroupItem>
                   <Button className="btn w-100 btn-success" onClick={() => makePayment()}>
@@ -457,6 +368,14 @@ const OrderScreen = () => {
                   Vytvořit novou objednávku
                 </Button>
               </ListGroup.Item>
+              <ListGroup.Item>
+                <Button className="w-100 btn-red" onClick={() => resendConfirmationEmail()}>
+                  Poslat potvrzovací email s fakturou
+                </Button>
+              </ListGroup.Item>
+              {successConfirmationEmail && (
+                <Message variant="success">Potvrzovací email s fakturou odeslán</Message>
+              )}
             </ListGroup>
           </Card>
         </Col>
