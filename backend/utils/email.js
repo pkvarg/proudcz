@@ -84,7 +84,7 @@ class Email {
       productsOnlyPrice: this.productsOnlyPrice,
       totalPrice: this.totalPrice,
       orderNumber: this.orderNumber,
-      variableSymbol: this.orderNumber.replace('W', ''),
+      variableSymbol: this.orderNumber?.replace('W', ''),
       file: this.file,
       // contactForm
       emailSubject: this.subject,
