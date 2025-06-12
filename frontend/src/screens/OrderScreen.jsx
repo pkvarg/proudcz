@@ -321,7 +321,7 @@ const OrderScreen = () => {
                   <ListGroup.Item>
                     <Row>
                       <div className="cart-box-right">
-                        Celkom:
+                        Celkem:
                         <div className="ml-auto"> {order.totalPrice} Kč</div>
                       </div>
                     </Row>

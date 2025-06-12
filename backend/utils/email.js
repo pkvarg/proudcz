@@ -49,10 +49,23 @@ class Email {
     this.productsOnlyPrice = user.productsOnlyPrice
   }
 
+  // newTransport() {
+  //   return nodemailer.createTransport({
+  //     pool: true,
+  //     host: 'smtp.m1.websupport.sk',
+  //     port: 465,
+  //     secure: true, // use TLS
+  //     auth: {
+  //       user: process.env.ADMIN_USERNAME,
+  //       pass: process.env.ADMIN_PASSWORD,
+  //     },
+  //   })
+  // }
+
   newTransport() {
     return nodemailer.createTransport({
       pool: true,
-      host: 'smtp.m1.websupport.sk',
+      host: 'smtp.titan.email',
       port: 465,
       secure: true, // use TLS
       auth: {

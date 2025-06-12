@@ -308,14 +308,7 @@ const Header = () => {
             <LinkContainer to="/contact">
               <Nav.Link className="red-navbar-item">Kontakt</Nav.Link>
             </LinkContainer>
-            {/* <a
-              href='http://www.facebook.com/prud.sk'
-              target='_blank'
-              rel='noreferrer'
-              className='no-mobile'
-            >
-              <Icon.Facebook className='header-facebook-white' />
-            </a> */}
+
             <Link to="favorites" className="no-mobile">
               <Icon.HeartFill className="header-heart-white" />
             </Link>
