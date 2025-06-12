@@ -116,8 +116,8 @@ const Footer = () => {
                 <div className="footer-text-links ">
                   <h2>Kontakt</h2>
 
-                  <a href="mailto:admin@prud.sk">
-                    <p>proud@proudnihy.cz</p>
+                  <a href="mailto:eshop@proudzivota.cz">
+                    <p>eshop@proudzivota.cz</p>
                   </a>
 
                   <a href="tel:+421904060262">
