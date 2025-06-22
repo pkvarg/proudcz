@@ -7,11 +7,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import * as Icon from 'react-bootstrap-icons'
 
-import {
-  listBanner,
-  deleteBanner,
-  createBanner,
-} from '../actions/bannerActions'
+import { listBanner, deleteBanner, createBanner } from '../actions/bannerActions'
 import { useNavigate } from 'react-router-dom'
 import { BANNER_CREATE_RESET } from '../constants/bannerConstants'
 
@@ -24,11 +20,7 @@ const BannerListScreen = () => {
   const { loading, error, banners } = bannerList
 
   const bannerDelete = useSelector((state) => state.bannerDelete)
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = bannerDelete
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = bannerDelete
 
   const bannerCreate = useSelector((state) => state.bannerCreate)
   const {
@@ -51,15 +43,7 @@ const BannerListScreen = () => {
     } else {
       dispatch(listBanner('', pageNumber))
     }
-  }, [
-    dispatch,
-    userInfo,
-    navigate,
-    successDelete,
-    successCreate,
-    createdBanner,
-    pageNumber,
-  ])
+  }, [dispatch, userInfo, navigate, successDelete, successCreate, createdBanner, pageNumber])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure?')) {
@@ -73,38 +57,38 @@ const BannerListScreen = () => {
 
   return (
     <>
-      <Row className='align-items-center no-mobile'>
+      <Row className="align-items-center no-mobile">
         <Col>
           <h1>Banner obrázky</h1>
         </Col>
-        <Col className='text-end'>
-          <Button className='my-3 btn-red' onClick={createBannerHandler}>
-            <i className='fas fa-plus'></i> Přidat Banner
+        <Col className="text-end">
+          <Button className="my-3 btn-red" onClick={createBannerHandler}>
+            Přidat Banner
           </Button>
         </Col>
       </Row>
-      <Row className='align-items-center mobile-only'>
+      <Row className="align-items-center mobile-only">
         <Col>
           <h1>Banner</h1>
         </Col>
-        <Col className='text-end'>
-          <Button className='my-3 btn-red' onClick={createBannerHandler}>
-            <i className='fas fa-plus'></i> Přidat obrázek
+        <Col className="text-end">
+          <Button className="my-3 btn-red" onClick={createBannerHandler}>
+            Přidat banner
           </Button>
         </Col>
       </Row>
       {loadingDelete && <Loader />}
-      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loadingCreate && <Loader />}
-      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+      {errorCreate && <Message variant="danger">{errorCreate}</Message>}
 
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className='table-sm my-5'>
+          <Table striped bordered hover responsive className="table-sm my-5">
             <thead>
               <tr>
                 <th>NÁZEV</th>
@@ -121,13 +105,13 @@ const BannerListScreen = () => {
 
                   <td>
                     <LinkContainer to={`/admin/banner/${banner._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
+                      <Button variant="light" className="btn-sm">
                         <Icon.Pencil />
                       </Button>
                     </LinkContainer>
                     <Button
-                      variant='danger'
-                      className='btn-sm'
+                      variant="danger"
+                      className="btn-sm"
                       onClick={() => deleteHandler(banner._id)}
                     >
                       <Icon.Trash />

@@ -20,11 +20,7 @@ const VideoListScreen = () => {
   const { loading, error, videos } = videoList
 
   const videoDelete = useSelector((state) => state.videoDelete)
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = videoDelete
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = videoDelete
 
   const videoCreate = useSelector((state) => state.videoCreate)
   const {
@@ -47,15 +43,7 @@ const VideoListScreen = () => {
     } else {
       dispatch(listVideo('', pageNumber))
     }
-  }, [
-    dispatch,
-    userInfo,
-    navigate,
-    successDelete,
-    successCreate,
-    createdVideo,
-    pageNumber,
-  ])
+  }, [dispatch, userInfo, navigate, successDelete, successCreate, createdVideo, pageNumber])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure?')) {
@@ -74,38 +62,38 @@ const VideoListScreen = () => {
 
   return (
     <>
-      <Row className='align-items-center no-mobile'>
+      <Row className="align-items-center no-mobile">
         <Col>
           <h1>YouTube Video</h1>
         </Col>
-        <Col className='text-end'>
-          <Button className='my-3 btn-red' onClick={createVideoHandler}>
-            <i className='fas fa-plus'></i> Přidat YouTube Video
+        <Col className="text-end">
+          <Button className="my-3 btn-red" onClick={createVideoHandler}>
+            Přidat YouTube Video
           </Button>
         </Col>
       </Row>
-      <Row className='align-items-center mobile-only'>
+      <Row className="align-items-center mobile-only">
         <Col>
           <h1>YouTube Video</h1>
         </Col>
-        <Col className='text-end'>
-          <Button className='my-3 btn-red' onClick={createVideoHandler}>
-            <i className='fas fa-plus'></i> Přidat YouTube Video
+        <Col className="text-end">
+          <Button className="my-3 btn-red" onClick={createVideoHandler}>
+            Přidat YouTube Video
           </Button>
         </Col>
       </Row>
       {loadingDelete && <Loader />}
-      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loadingCreate && <Loader />}
-      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+      {errorCreate && <Message variant="danger">{errorCreate}</Message>}
 
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className='table-sm my-5'>
+          <Table striped bordered hover responsive className="table-sm my-5">
             <thead>
               <tr>
                 <th>NÁZEV (v tomto -abc- pořadí budou videa zobrazená)</th>
@@ -120,13 +108,13 @@ const VideoListScreen = () => {
 
                   <td>
                     <LinkContainer to={`/admin/video/${video._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
+                      <Button variant="light" className="btn-sm">
                         <Icon.Pencil />
                       </Button>
                     </LinkContainer>
                     <Button
-                      variant='danger'
-                      className='btn-sm'
+                      variant="danger"
+                      className="btn-sm"
                       onClick={() => deleteHandler(video._id)}
                     >
                       <Icon.Trash />

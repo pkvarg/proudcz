@@ -43,24 +43,21 @@ const CartScreen = () => {
         {cartItems.length === 0 ? (
           <Message>
             Váš košík je prázdný{' '}
-            <Link to='/' className='cart-empty-back-link'>
+            <Link to="/" className="cart-empty-back-link">
               Zpět
             </Link>
           </Message>
         ) : (
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             {cartItems.map((item) => (
               <ListGroup.Item key={item.product}>
-                <Row className='cart-prod-left no-mobile'>
+                <Row className="cart-prod-left no-mobile">
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
 
-                  <Col md={3} className='cart-prod-off'>
-                    <Link
-                      to={`/product/${item.product}`}
-                      className='no-underline '
-                    >
+                  <Col md={3} className="cart-prod-off">
+                    <Link to={`/product/${item.product}`} className="no-underline ">
                       {item.name}
                     </Link>
                   </Col>
@@ -68,13 +65,9 @@ const CartScreen = () => {
                   <Col md={2}> {item.price} Kč</Col>
                   <Col md={2}>
                     <Form.Control
-                      as='select'
+                      as="select"
                       value={item.qty}
-                      onChange={(e) =>
-                        dispatch(
-                          addToCart(item.product, Number(e.target.value))
-                        )
-                      }
+                      onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
                     >
                       {[...Array(item.countInStock).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
@@ -85,37 +78,30 @@ const CartScreen = () => {
                   </Col>
                   <Col md={2}>
                     <Button
-                      type='button'
-                      variant='light'
+                      type="button"
+                      variant="light"
                       onClick={() => removeFromCartHandler(item.product)}
                     >
                       <Icon.Trash3 size={20} />
                     </Button>
                   </Col>
                 </Row>
-                <Row className='cart-prod-left mobile-only'>
-                  <Col md={2} className='cart-mob-img'>
+                <Row className="cart-prod-left mobile-only">
+                  <Col md={2} className="cart-mob-img">
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
-                  <Col md={3} className='cart-prod-off'>
-                    <Link
-                      to={`/product/${item.product}`}
-                      className='no-underline '
-                    >
+                  <Col md={3} className="cart-prod-off">
+                    <Link to={`/product/${item.product}`} className="no-underline ">
                       {item.name}
                     </Link>
                   </Col>
-                  <div className='cart-mob-three-row'>
+                  <div className="cart-mob-three-row">
                     <Col md={2}> {item.price} Kč</Col>
                     <Col md={2}>
                       <Form.Control
-                        as='select'
+                        as="select"
                         value={item.qty}
-                        onChange={(e) =>
-                          dispatch(
-                            addToCart(item.product, Number(e.target.value))
-                          )
-                        }
+                        onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
                       >
                         {[...Array(item.countInStock).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>
@@ -126,11 +112,11 @@ const CartScreen = () => {
                     </Col>
                     <Col md={2}>
                       <Button
-                        type='button'
-                        variant='light'
+                        type="button"
+                        variant="light"
                         onClick={() => removeFromCartHandler(item.product)}
                       >
-                        <i className='fas fa-trash'></i>
+                        <Icon.Trash3 size={20} />
                       </Button>
                     </Col>
                   </div>
@@ -142,20 +128,13 @@ const CartScreen = () => {
       </Col>
       <Col md={4}>
         <Card>
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>
-                Položiek (
-                {cartItems.reduce((acc, item) => acc + Number(item.qty), 0)})
-              </h2>
-              <div className='cart-box-right'>
+              <h2>Položiek ({cartItems.reduce((acc, item) => acc + Number(item.qty), 0)})</h2>
+              <div className="cart-box-right">
                 Produkty:{' '}
-                <div className='ml-auto'>
-                  {cartItems.reduce(
-                    (acc, item) => acc + Number(item.qty * item.price),
-                    0
-                  )}{' '}
-                  Kč
+                <div className="ml-auto">
+                  {cartItems.reduce((acc, item) => acc + Number(item.qty * item.price), 0)} Kč
                 </div>
               </div>
             </ListGroup.Item>
@@ -163,8 +142,8 @@ const CartScreen = () => {
             <ListGroup.Item>
               <Row>
                 <Col>
-                  <div className='cart-box-right'>
-                    Poštovné a balné: <div className='ml-auto'>75 Kč</div>
+                  <div className="cart-box-right">
+                    Poštovné a balné: <div className="ml-auto">75 Kč</div>
                   </div>
                 </Col>
               </Row>
@@ -172,14 +151,11 @@ const CartScreen = () => {
             <ListGroup.Item>
               <Row>
                 <Col>
-                  <div className='cart-box-right'>
+                  <div className="cart-box-right">
                     Celkem:{' '}
-                    <div className='ml-auto'>
+                    <div className="ml-auto">
                       {Number(
-                        cartItems.reduce(
-                          (acc, item) => acc + Number(item.qty * item.price),
-                          0
-                        )
+                        cartItems.reduce((acc, item) => acc + Number(item.qty * item.price), 0),
                       ) + Number(75)}{' '}
                       Kč
                     </div>
@@ -190,8 +166,8 @@ const CartScreen = () => {
             {cartItems.length > 0 && (
               <ListGroup.Item>
                 <Button
-                  type='button'
-                  className='w-100 btn-red'
+                  type="button"
+                  className="w-100 btn-red"
                   disabled={cartItems.lenght === 0}
                   onClick={checkoutHandler}
                 >
@@ -200,11 +176,7 @@ const CartScreen = () => {
               </ListGroup.Item>
             )}
             <ListGroup.Item>
-              <Button
-                onClick={continueShopping}
-                className='w-100 btn-blue'
-                type='button'
-              >
+              <Button onClick={continueShopping} className="w-100 btn-blue" type="button">
                 Pokračovat v nákupu
               </Button>
             </ListGroup.Item>
